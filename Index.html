@@ -1,51 +1,81 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Catalogo Prodotti ITC</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f4f4f4; }
+    header { background:#222; color:#fff; padding:15px; text-align:center; }
+    .container { max-width:1200px; margin:20px auto; padding:0 15px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:20px; }
+    .card { background:#fff; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,.1); overflow:hidden; }
+    .card img { width:100%; height:180px; object-fit:cover; }
+    .card-body { padding:15px; }
+    .title { font-weight:bold; margin:0 0 10px; }
+    .price { color:#2c7; font-weight:bold; margin:10px 0; }
+    footer { margin-top:30px; padding:15px; text-align:center; color:#777; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Catalogo Prodotti ITC</h1>
+  </header>
+  <div class="container">
+    <div id="grid" class="grid"></div>
+  </div>
+  <footer>© 2025 Catalogo Prodotti ITC</footer>
 
+  <script>
+  const PRODUCTS = [
+    { id:"caviale-iran-darya", name:"Caviale Iran Darya", price:120.00, shortDesc:"Caviale pregiato Iran Darya", images:["images/caviale-iran-darya.jpg"] },
+    { id:"dentice-crema-200", name:"Dentice Crema 200g", price:6.50, shortDesc:"Crema di dentice vasetto 200g", images:["images/dentice-crema-200.jpg"] },
+    { id:"dentice-crema-500", name:"Dentice Crema 500g", price:11.00, shortDesc:"Crema di dentice vasetto 500g", images:["images/dentice-crema-500.jpg"] },
+    { id:"lompo-uova-vivieffe", name:"Uova di Lompo Vivieffe", price:4.90, shortDesc:"Uova di lompo confezione", images:["images/lompo-uova-vivieffe.jpg"] },
+    { id:"muggine-bottarga", name:"Muggine Bottarga", price:19.90, shortDesc:"Bottarga di muggine", images:["images/muggine-bottarga.jpg"] },
+    { id:"salmone-affumicato-norvegia-intero-1", name:"Salmone Affumicato Norvegia Intero", price:25.00, shortDesc:"Salmone intero affumicato", images:["images/salmone-affumicato-norvegia-intero-1.jpg"] },
+    { id:"salmone-affumicato-norvegia-preaffettato-1", name:"Salmone Affumicato Norvegia Preaffettato", price:18.00, shortDesc:"Salmone affumicato preaffettato", images:["images/salmone-affumicato-norvegia-preaffettato-1.jpg"] },
+    { id:"salmone-uova-riunione", name:"Salmone Uova Riunione", price:7.90, shortDesc:"Uova di salmone", images:["images/salmone-uova-riunione.jpg"] },
+    { id:"stoccafisso-salato", name:"Stoccafisso Salato", price:12.00, shortDesc:"Stoccafisso salato tradizionale", images:["images/stoccafisso-salato.jpg"] },
+    { id:"stoccafisso", name:"Stoccafisso", price:10.00, shortDesc:"Stoccafisso intero", images:["images/stoccafisso.jpg"] },
+    { id:"tonno-bottarga", name:"Tonno Bottarga", price:21.00, shortDesc:"Bottarga di tonno", images:["images/tonno-bottarga.jpg"] },
+    { id:"tonno-filetti-acantilado", name:"Tonno Filetti Acantilado", price:9.50, shortDesc:"Filetti di tonno marca Acantilado", images:["images/tonno-filetti-acantilado.jpg"] },
+    { id:"tonno-filetto-albatros", name:"Tonno Filetto Albatros", price:9.90, shortDesc:"Filetti di tonno marca Albatros", images:["images/tonno-filetto-albatros.jpg"] },
+    { id:"tonno-olio-corallo", name:"Tonno Olio Corallo", price:8.90, shortDesc:"Tonno sott’olio Corallo", images:["images/tonno-olio-corallo.jpg"] },
+    { id:"tonno-pinne-gialle-albaladejo", name:"Tonno Pinne Gialle Albaladejo", price:14.00, shortDesc:"Tonno pinne gialle", images:["images/tonno-pinnegialle-albaladejo.jpg"] },
+    { id:"tonno-pinne-gialle-albaladejo2", name:"Tonno Pinne Gialle Albaladejo 2", price:14.50, shortDesc:"Tonno pinne gialle seconda confezione", images:["images/tonno-pinnegialle-albaladejo2.jpg"] },
+    { id:"tonno-pinne-gialle-atm", name:"Tonno Pinne Gialle ATM", price:15.00, shortDesc:"Tonno pinne gialle ATM", images:["images/tonno-pinnegialle-atm.jpg"] },
+    { id:"acciughe-filetti-corallo", name:"Acciughe Filetti Corallo", price:5.90, shortDesc:"Filetti di acciughe Corallo", images:["images/acciughe-filetti-corallo.jpg"] },
+    { id:"acciughe-filetti-riunione", name:"Acciughe Filetti Riunione", price:6.20, shortDesc:"Filetti di acciughe Riunione", images:["images/acciughe-filetti-riunione.jpg"] },
+    { id:"alici-colatura-cantabrico", name:"Alici Colatura Cantabrico", price:8.00, shortDesc:"Colatura di alici Cantabrico", images:["images/alici-colatura-cantabrico.jpg"] },
+    { id:"alici-filetti-albatros", name:"Alici Filetti Albatros", price:5.50, shortDesc:"Filetti di alici Albatros", images:["images/alici-filetti-albatros.jpg"] },
+    { id:"alici-filetti-peperosa", name:"Alici Filetti Peperosa", price:5.80, shortDesc:"Filetti di alici Peperosa", images:["images/alici-filetti-peperosa.jpg"] },
+    { id:"alici-filetti-pezzi-albatros", name:"Alici Filetti Pezzi Albatros", price:6.00, shortDesc:"Filetti di alici confezione Albatros", images:["images/alici-filetti-pezzi-albatros.jpg"] },
+    { id:"aringa-filetto-affumicato", name:"Aringa Filetto Affumicato", price:4.90, shortDesc:"Filetto di aringa affumicata", images:["images/aringa-filetto-affumicato.jpg"] },
+    { id:"aringa-uova-affumicato", name:"Aringa Uova Affumicato", price:6.50, shortDesc:"Uova di aringa affumicate", images:["images/aringa-uova-affumicato.jpg"] },
+    { id:"baccala-condito-200", name:"Baccalà Condito 200g", price:7.90, shortDesc:"Baccalà condito vasetto 200g", images:["images/baccala-condito-200.jpg"] },
+    { id:"baccala-mantecato-1", name:"Baccalà Mantecato", price:8.90, shortDesc:"Baccalà mantecato confezione", images:["images/baccala-mantecato-1.jpg"] },
+    { id:"baccala-mantecato-200", name:"Baccalà Mantecato 200g", price:9.20, shortDesc:"Baccalà mantecato vasetto 200g", images:["images/baccala-mantecato-200.jpg"] },
+    { id:"baccala-umido-150", name:"Baccalà Umido 150g", price:6.80, shortDesc:"Baccalà in umido vasetto 150g", images:["images/baccala-umido-150.jpg"] },
+    { id:"baccala-vicentina-1", name:"Baccalà alla Vicentina", price:10.90, shortDesc:"Ricetta vicentina originale", images:["images/baccala-vicentina-1.jpg"] },
+    { id:"baccala-vicentina-200", name:"Baccalà alla Vicentina 200g", price:11.50, shortDesc:"Ricetta vicentina vasetto 200g", images:["images/baccala-vicentina-200.jpg"] },
+    { id:"caviale-caviar", name:"Caviale Caviar", price:99.00, shortDesc:"Caviale Caviar", images:["images/caviale-caviar.jpg"] }
+  ];
 
-
-  
-  
-  
-  
-  
-
-
-  
-
-    
-      
-Catalogo Prodotti ITC — pubblico, prezzi visibili
-
-      
-
-        
-        Tutti i tag
-        
-          Ordina A→Z
-          Ordina Z→A
-          Prezzo ↑
-          Prezzo ↓
-          Più recenti
-        
-      
-
-    
-
-<div id="grid" class="grid" role="list"></div>
-<div id="empty" class="empty" hidden>Nessun prodotto trovato.</div>
-
-<footer>
-  <div>✔ Gratuito da pubblicare su <strong>GitHub Pages</strong> o <strong>Netlify</strong>. Modifica i dati in <code>PRODUCTS</code> qui sotto.</div>
-  <div style="margin-top:6px" class="muted">Suggerimento: carica le immagini in <code>/images/</code> con nomi coerenti, es. <code>merluzzo-front.jpg</code>, <code>merluzzo-back.jpg</code>.</div>
-</footer>
-
-
-  
-
-  
-  
-  
-  
-  
-  
-
-
-
+  function render() {
+    const grid = document.getElementById("grid");
+    grid.innerHTML = PRODUCTS.map(p => `
+      <div class="card">
+        <img src="${p.images[0]}" alt="${p.name}">
+        <div class="card-body">
+          <div class="title">${p.name}</div>
+          <div>${p.shortDesc}</div>
+          <div class="price">€${p.price.toFixed(2)}</div>
+        </div>
+      </div>
+    `).join("");
+  }
+  render();
+  </script>
+</body>
+</html>
