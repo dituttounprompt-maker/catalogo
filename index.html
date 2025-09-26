@@ -5,26 +5,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Catalogo Prodotti ZANON SEAFISH</title>
   <style>
-    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f4f4f4; }
-    header { background:#222; color:#fff; padding:15px; text-align:center; }
-    .container { max-width:1200px; margin:20px auto; padding:0 15px; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:20px; }
-    .card { background:#fff; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,.1); overflow:hidden; }
-    .card img { width:100%; height:180px; object-fit:cover; }
-    .card-body { padding:15px; }
-    .title { font-weight:bold; margin:0 0 10px; }
-    .price { color:#2c7; font-weight:bold; margin:10px 0; }
-    footer { margin-top:30px; padding:15px; text-align:center; color:#777; }
+    :root{--bg:#f4f4f4;--card:#fff;--text:#111;--muted:#666;--brand:#22a06b}
+    *{box-sizing:border-box}
+    body{font-family:Arial,system-ui,sans-serif;margin:0;background:var(--bg);color:var(--text)}
+    header{background:#222;color:#fff;padding:15px;text-align:center}
+    .container{max-width:1200px;margin:20px auto;padding:0 15px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+    .card{background:var(--card);border-radius:8px;box-shadow:0 2px 5px rgba(0,0,0,.1);overflow:hidden;cursor:pointer;transition:transform .08s}
+    .card:hover{transform:translateY(-2px)}
+    .card img{width:100%;height:180px;object-fit:cover}
+    .card-body{padding:15px}
+    .title{font-weight:bold;margin:0 0 6px}
+    .muted{color:var(--muted);font-size:14px}
+    .price{color:var(--brand);font-weight:bold;margin-top:10px}
+    footer{margin-top:30px;padding:15px;text-align:center;color:#777}
+    /* Modal */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:16px;z-index:100}
+    .modal.open{display:flex}
+    .sheet{background:#fff;max-width:1000px;width:100%;border-radius:12px;overflow:hidden;display:grid;grid-template-columns:1fr}
+    @media(min-width:900px){.sheet{grid-template-columns:1fr 1fr}}
+    .gallery{background:#0f1115;display:grid;grid-template-columns:1fr;gap:4px;padding:4px}
+    .gallery img{width:100%;aspect-ratio:4/3;object-fit:contain;background:#0b0e12;border-radius:6px}
+    .content{padding:18px}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .close{border:1px solid #ccc;background:#fafafa;border-radius:8px;padding:8px 10px;cursor:pointer}
+    .table{width:100%;border-collapse:collapse;margin-top:10px}
+    .table th,.table td{border:1px solid #eee;padding:8px 10px;text-align:left;font-size:14px}
+    .table th{background:#f7f7f7;width:30%}
   </style>
 </head>
 <body>
-  <header>
-    <h1>Catalogo Prodotti ZANON SEAFISH</h1>
-  </header>
+  <header><h1>Catalogo Prodotti ZANON SEAFISH</h1></header>
+
   <div class="container">
     <div id="grid" class="grid"></div>
   </div>
+
   <footer>© 2025 Catalogo Prodotti ZANON SEAFISH</footer>
+
+  <!-- MODAL -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <div class="gallery" id="mGallery"></div>
+      <div class="content">
+        <div class="row">
+          <h2 id="mTitle" class="title" style="margin:0"></h2>
+          <button id="mClose" class="close" aria-label="Chiudi">Chiudi</button>
+        </div>
+        <div id="mPrice" class="price" style="font-size:18px"></div>
+        <div id="mShort" class="muted" style="margin-top:6px"></div>
+        <p id="mLong" style="margin-top:10px"></p>
+        <table class="table">
+          <tbody>
+            <tr><th>ID</th><td id="mId">—</td></tr>
+            <tr><th>Immagini</th><td id="mImgsCount">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
   <script>
   const PRODUCTS = [
@@ -39,45 +78,4 @@
     { id:"baccala-mantecato-200", name:"Baccalà Mantecato 200g", price:9.20, shortDesc:"Baccalà mantecato vasetto 200g", images:["images/baccala-mantecato-200.jpg"] },
     { id:"baccala-umido-150", name:"Baccalà Umido 150g", price:6.80, shortDesc:"Baccalà in umido vasetto 150g", images:["images/baccala-umido-150.jpg"] },
     { id:"baccala-vicentina-1", name:"Baccalà alla Vicentina", price:10.90, shortDesc:"Ricetta vicentina tradizionale", images:["images/baccala-vicentina-1.jpg"] },
-    { id:"baccala-vicentina-200", name:"Baccalà alla Vicentina 200g", price:11.50, shortDesc:"Ricetta vicentina vasetto 200g", images:["images/baccala-vicentina-200.jpg"] },
-    { id:"bottarga-muggine", name:"Bottarga di Muggine", price:19.90, shortDesc:"Bottarga di muggine", images:["images/bottarga-muggine.jpg"] },
-    { id:"bottarga-tonno", name:"Bottarga di Tonno", price:21.00, shortDesc:"Bottarga di tonno", images:["images/bottarga-tonno.jpg"] },
-    { id:"caviale-iran-darya", name:"Caviale Iran Darya", price:120.00, shortDesc:"Caviale pregiato Iran Darya", images:["images/caviale-iran-darya.jpg"] },
-    { id:"caviale-royalpop", name:"Caviale Royalpop", price:150.00, shortDesc:"Caviale selezione Royalpop", images:["images/caviale-royalpop.jpg"] },
-    { id:"dentice-crema-200", name:"Dentice Crema 200g", price:6.50, shortDesc:"Crema di dentice vasetto 200g", images:["images/dentice-crema-200.jpg"] },
-    { id:"dentice-crema-500", name:"Dentice Crema 500g", price:11.00, shortDesc:"Crema di dentice vasetto 500g", images:["images/dentice-crema-500.jpg"] },
-    { id:"nero-seppia", name:"Nero di Seppia", price:4.50, shortDesc:"Sacco nero di seppia", images:["images/nero-seppia.jpg"] },
-    { id:"polpa-granchio", name:"Polpa di Granchio", price:8.90, shortDesc:"Polpa di granchio", images:["images/polpa-granchio.jpg"] },
-    { id:"polpa-riccio-riunione", name:"Polpa di Riccio Riunione", price:9.50, shortDesc:"Polpa di riccio Riunione", images:["images/polpa-riccio-riunione.jpg"] },
-    { id:"polpa-riccio", name:"Polpa di Riccio", price:9.00, shortDesc:"Polpa di riccio naturale", images:["images/polpa-riccio.jpg"] },
-    { id:"salmone-intero-norv", name:"Salmone Intero Norvegese", price:25.00, shortDesc:"Salmone intero Norvegia", images:["images/salmone-intero-norv.jpg"] },
-    { id:"salmone-preaff-norv", name:"Salmone Preaffettato Norvegese", price:18.00, shortDesc:"Salmone preaffettato Norvegia", images:["images/salmone-preaff-norv.jpg"] },
-    { id:"stoccafisso-salato", name:"Stoccafisso Salato", price:12.00, shortDesc:"Stoccafisso salato tradizionale", images:["images/stoccafisso-salato.jpg"] },
-    { id:"stoccafisso-secco", name:"Stoccafisso Secco", price:10.00, shortDesc:"Stoccafisso essiccato", images:["images/stoccafisso-secco.jpg"] },
-    { id:"tonno-corallo", name:"Tonno Corallo", price:8.90, shortDesc:"Tonno sott’olio Corallo", images:["images/tonno-corallo.jpg"] },
-    { id:"tonno-filetti-acantilado", name:"Tonno Filetti Acantilado", price:9.50, shortDesc:"Filetti di tonno marca Acantilado", images:["images/tonno-filetti-acantilado.jpg"] },
-    { id:"tonno-filetti-albatros", name:"Tonno Filetti Albatros", price:9.90, shortDesc:"Filetti di tonno marca Albatros", images:["images/tonno-filetti-albatros.jpg"] },
-    { id:"tonno-filone-albaladejo", name:"Tonno Filone Albaladejo", price:14.00, shortDesc:"Tonno filone Albaladejo", images:["images/tonno-filone-albaladejo.jpg"] },
-    { id:"tonno-filone-atm", name:"Tonno Filone ATM", price:15.00, shortDesc:"Tonno filone ATM", images:["images/tonno-filone-atm.jpg"] },
-    { id:"uova-aringa", name:"Uova di Aringa", price:6.50, shortDesc:"Uova di aringa affumicate", images:["images/uova-aringa.jpg"] },
-    { id:"uova-lompo", name:"Uova di Lompo", price:5.90, shortDesc:"Uova di lompo", images:["images/uova-lompo.jpg"] },
-    { id:"uova-salmone", name:"Uova di Salmone", price:7.90, shortDesc:"Uova di salmone", images:["images/uova-salmone.jpg"] }
-  ];
-
-  function render() {
-    const grid = document.getElementById("grid");
-    grid.innerHTML = PRODUCTS.map(p => `
-      <div class="card">
-        <img src="${p.images[0]}" alt="${p.name}">
-        <div class="card-body">
-          <div class="title">${p.name}</div>
-          <div>${p.shortDesc}</div>
-          <div class="price">€${p.price.toFixed(2)}</div>
-        </div>
-      </div>
-    `).join("");
-  }
-  render();
-  </script>
-</body>
-</html>
+    { id:"baccala-vicentina-200", name:"Baccalà alla Vicentina 200g", price:11.50, shortDesc:"Ricetta vicentina vasetto 200g", images:["images/baccala-vicentina]()
