@@ -69,7 +69,6 @@
       margin-top:30px; padding:16px; text-align:center;
       color:#fff; background:var(--rosso); border-top:6px solid #004d00
     }
-    /* Modal */
     .modal{position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; padding:20px}
     .modal.open{display:flex}
     .modal-content{
@@ -78,7 +77,22 @@
     }
     .modal-content img{width:100%; object-fit:contain; display:block; margin:0 auto 15px}
     .close{position:absolute; top:10px; right:10px; border:none; background:#eee; border-radius:6px; padding:6px 10px; cursor:pointer}
-  </style>
+@media (max-width: 640px){
+  header{ padding:10px 12px 20px; }
+  .contact, .search{
+    position: static;         
+    margin:6px 0;             
+  }
+  .contact{ text-align:center; }
+  .search{ text-align:center; }
+  .search input{
+    width:100%;              
+    max-width:none;
+  }
+  header img{ height:60px !important; margin:6px auto 8px !important; }
+  header h1{ font-size:1.4rem; line-height:1.2; }
+}
+ </style>
 </head>
 <body>
   <header>
