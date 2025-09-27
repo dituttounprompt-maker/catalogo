@@ -6,49 +6,49 @@
   <title>Catalogo Prodotti ZANON SEAFISH</title>
   <style>
     body{font-family:Arial,sans-serif;margin:0;padding:0;background:#f4f4f4}
-    header{background:#222;color:#fff;padding:14px 12px 20px;position:relative;text-align:center}
-    header h1{margin:10px 0 0;font-weight:700}
-    .topbar{max-width:1200px;margin:0 auto;display:flex;gap:10px;justify-content:space-between;align-items:center}
+    header{background:#222;color:#fff;padding:15px 15px 36px;position:relative;text-align:center}
+    header h1{margin:8px 0 0;font-weight:700}
+    .search{position:absolute;top:12px;right:12px}
+    .search input{width:220px;max-width:38vw;padding:8px 10px;border-radius:6px;border:1px solid #ccc}
+    .contact{position:absolute;top:12px;left:12px}
     .contact a{background:#28a745;color:#fff;padding:8px 14px;text-decoration:none;border-radius:6px;font-weight:bold;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(0,0,0,.2)}
-    .search input{width:260px;padding:8px 10px;border-radius:6px;border:1px solid #ccc}
-    .logo{height:80px;display:block;margin:8px auto 6px}
-    .muted{color:#ccc}
     .container{max-width:1200px;margin:20px auto;padding:0 15px}
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
-    .card{background:#fff;border:1px solid #ddd;border-radius:8px;box-shadow:0 0 8px rgba(0,0,0,.1);overflow:hidden;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}
+    .card{background:#fff;border:1px solid #ddd;border-radius:8px;box-shadow:0 0 8px rgba(0,0,0,.1);overflow:hidden;cursor:pointer;transition:transform .18s,box-shadow .18s}
     .card:hover{transform:scale(1.02);box-shadow:0 6px 14px rgba(0,0,0,.2)}
     .card img{width:100%;height:180px;object-fit:cover;display:block}
     .card-body{padding:15px}
     .title{font-weight:bold;margin:0 0 10px}
     .price{color:#28a745;font-weight:bold;margin:10px 0}
     footer{margin-top:30px;padding:16px;text-align:center;color:#777;background:#f4f4f4;border-top:1px solid #ddd}
+    /* Modal */
     .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000}
     .modal.open{display:flex}
     .modal-content{background:#fff;border-radius:8px;max-width:800px;width:100%;padding:20px;position:relative;max-height:90vh;overflow:auto;box-shadow:0 10px 24px rgba(0,0,0,.35)}
     .modal-content img{width:100%;object-fit:contain;display:block;margin:0 auto 15px}
     .close{position:absolute;top:10px;right:10px;border:none;background:#eee;border-radius:6px;padding:6px 10px;cursor:pointer}
     @media (max-width:640px){
-      .topbar{flex-direction:column;align-items:stretch}
-      .search input{width:100%;display:block;margin:0 auto}
-      .logo{height:60px}
+      header{padding:10px 12px 20px}
+      .contact,.search{position:static;margin:6px 0;text-align:center}
+      .search input{width:90%;max-width:320px}
+      header img{height:60px !important;margin:6px auto 8px !important}
       header h1{font-size:1.35rem;line-height:1.2}
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="topbar">
-      <div class="contact">
-        <a href="https://www.zanonseafish.it/contatti/" target="_blank" rel="noopener">✉️ Contattaci</a>
-      </div>
-      <div class="search">
-        <input type="text" id="searchBox" placeholder="Cerca prodotti…">
-      </div>
+    <div class="contact">
+      <a href="https://www.zanonseafish.it/contatti/" target="_blank" rel="noopener">✉️ Contattaci</a>
     </div>
-    <img class="logo" src="images/logo.png" alt="Zanon Seafish Ingros SRL"
+    <div class="search">
+      <input type="text" id="searchBox" placeholder="Cerca prodotti…">
+    </div>
+    <img src="images/logo.png" alt="Zanon Seafish Ingros SRL"
+         style="height:80px;display:block;margin:0 auto 10px"
          onerror="this.onerror=null;this.src='images/default.png';">
     <h1>Catalogo Prodotti</h1>
-    <div id="count" class="muted" style="margin-top:6px"></div>
+    <div id="count" style="color:#ccc;margin-top:6px"></div>
   </header>
 
   <div class="container">
@@ -56,13 +56,14 @@
   </div>
   <footer>© 2025 Catalogo Prodotti ZANON SEAFISH</footer>
 
-  <div id="modal" class="modal">
+  <!-- Modal -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true">
     <div class="modal-content">
-      <button id="closeBtn" class="close">Chiudi</button>
+      <button id="closeBtn" class="close" aria-label="Chiudi">Chiudi</button>
       <h2 id="mTitle"></h2>
       <div id="mGallery"></div>
       <p id="mDesc"></p>
-      <p id="mDescFull"></p>
+      <p id="mFullDesc"></p>
       <p id="mPrice" class="price"></p>
     </div>
   </div>
@@ -71,7 +72,7 @@
   const PRODUCTS = [
     {id:"acciughe-filetti-riunione",name:"Acciughe Filetti Riunione",price:6.20,
      shortDesc:"Acciughe filetti Riunione, confezione",
-     fullDesc:"Filetti di acciughe Riunione selezionati. Ideali per antipasti, pizze e insalate.",
+     fullDesc:"Filetti di acciughe Riunione selezionati e sott’olio. Ideali per antipasti, pizze e insalate.",
      images:["images/acciughe-filetti-riunione.jpg"]},
     {id:"acciughe-filetti",name:"Acciughe Filetti",price:5.90,
      shortDesc:"Acciughe filetti, confezione",
@@ -220,6 +221,13 @@
   const grid=document.getElementById("grid");
   const count=document.getElementById("count");
   const q=document.getElementById("searchBox");
+  const modal=document.getElementById("modal");
+  const mTitle=document.getElementById("mTitle");
+  const mDesc=document.getElementById("mDesc");
+  const mFullDesc=document.getElementById("mFullDesc");
+  const mPrice=document.getElementById("mPrice");
+  const mGallery=document.getElementById("mGallery");
+  const closeBtn=document.getElementById("closeBtn");
 
   function cardTemplate(p){
     return `
@@ -242,22 +250,29 @@
     const p=PRODUCTS.find(x=>x.id===id); if(!p) return;
     mTitle.textContent=p.name;
     mDesc.textContent=p.shortDesc||"";
-    mDescFull.textContent=p.fullDesc||"";
+    mFullDesc.textContent=p.fullDesc||"";
     mPrice.textContent="€"+p.price.toFixed(2);
     mGallery.innerHTML=(p.images||[]).map(src=>`<img src="${src}" alt="${p.name}" onerror="this.onerror=null;this.src='images/default.png';">`).join("");
     modal.classList.add("open");
+    history.pushState({modal:true},"");
   }
 
-  closeBtn.onclick=()=>modal.classList.remove("open");
+  function closeModal(){
+    if(!modal.classList.contains("open")) return;
+    modal.classList.remove("open");
+    if(history.state && history.state.modal){ history.back(); }
+  }
+
+  closeBtn.onclick=closeModal;
+  modal.addEventListener("click",e=>{ if(e.target===modal) closeModal(); });
+  window.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
+  window.addEventListener("popstate",e=>{ if(e.state && e.state.modal){ modal.classList.remove("open"); } });
 
   q.addEventListener("input",()=>{
     const term=q.value.trim().toLowerCase();
     if(!term){render(PRODUCTS);return;}
     const res=PRODUCTS.filter(p=>{
-      const hay=[
-        p.name||"",p.shortDesc||"",p.fullDesc||"",
-        ...(p.images||[]).map(x=>x.split('/').pop()||"")
-      ].join(" ").toLowerCase();
+      const hay=[p.name||"",p.shortDesc||"",p.fullDesc||"",...(p.images||[]).map(x=>x.split('/').pop()||"")].join(" ").toLowerCase();
       return hay.includes(term);
     });
     render(res);
