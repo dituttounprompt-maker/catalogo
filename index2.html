@@ -51,7 +51,7 @@
     }
     .card:hover{transform:scale(1.035); box-shadow:0 8px 18px rgba(0,0,0,.25)}
     .card img{width:100%; height:180px; object-fit:cover; display:block}
-    .card::before{
+    #grid .card::before{
       content:"";
       position:absolute; top:0; left:0; right:0;
       height:52px; pointer-events:none; z-index:1;
@@ -68,11 +68,11 @@
       margin-top:30px; padding:16px; text-align:center;
       color:#fff; background:var(--rosso); border-top:6px solid #004d00
     }
-    .modal{position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; padding:20px}
+    .modal{position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; padding:20px; z-index:1000}
     .modal.open{display:flex}
     .modal-content{
       background:#fff; border-radius:10px; max-width:800px; width:100%; padding:20px; position:relative;
-      max-height:90vh; overflow:auto; box-shadow:0 10px 24px rgba(0,0,0,.35)
+      max-height:90vh; overflow:auto; box-shadow:0 10px 24px rgba(0,0,0,.35); z-index:1001
     }
     .modal-content img{width:100%; object-fit:contain; display:block; margin:0 auto 15px}
     .close{position:absolute; top:10px; right:10px; border:none; background:#eee; border-radius:6px; padding:6px 10px; cursor:pointer}
@@ -126,40 +126,30 @@
     { id:"alici-filetto", name:"Alici Filetto", price:5.50, shortDesc:"Alici filetto, confezione", images:["images/alici-filetto.jpg"] },
     { id:"alici-pezzi", name:"Alici Pezzi", price:6.00, shortDesc:"Alici pezzi, confezione", images:["images/alici-pezzi.jpg"] },
     { id:"aringa-affumicata", name:"Aringa Affumicata", price:4.90, shortDesc:"Aringa affumicata, confezione", images:["images/aringa-affumicata.jpg"] },
-
     { id:"baccala-condito-200", name:"Baccalà Condito 200g", price:7.90, shortDesc:"Baccalà condito, confezione da 200 g", images:["images/baccala-condito-200.jpg"] },
     { id:"baccala-mantecato-200", name:"Baccalà Mantecato 200g", price:9.20, shortDesc:"Baccalà mantecato, confezione da 200 g", images:["images/baccala-mantecato-200.jpg"] },
     { id:"baccala-umido-150", name:"Baccalà Umido 150g", price:6.80, shortDesc:"Baccalà in umido, confezione da 150 g", images:["images/baccala-umido-150.jpg"] },
     { id:"baccala-vicentina-1", name:"Baccalà alla Vicentina", price:10.90, shortDesc:"Baccalà alla vicentina, confezione", images:["images/baccala-vicentina-1.jpg"] },
     { id:"baccala-vicentina-200", name:"Baccalà alla Vicentina 200g", price:11.50, shortDesc:"Baccalà alla vicentina, confezione da 200 g", images:["images/baccala-vicentina-200.jpg"] },
-
     { id:"bottarga-muggine", name:"Bottarga di Muggine", price:19.90, shortDesc:"Bottarga di muggine, confezione", images:["images/bottarga-muggine.jpg"] },
     { id:"bottarga-tonno", name:"Bottarga di Tonno", price:21.00, shortDesc:"Bottarga di tonno, confezione", images:["images/bottarga-tonno.jpg"] },
-
     { id:"caviale-iran-darya", name:"Caviale Iran Darya", price:120.00, shortDesc:"Caviale Iran Darya, confezione", images:["images/caviale-iran-darya.jpg"] },
     { id:"caviale-royalpop", name:"Caviale Royalpop", price:150.00, shortDesc:"Caviale Royalpop, confezione", images:["images/caviale-royalpop.jpg"] },
-
     { id:"dentice-crema-200", name:"Dentice Crema 200g", price:6.50, shortDesc:"Dentice crema, confezione da 200 g", images:["images/dentice-crema-200.jpg"] },
     { id:"dentice-crema-500", name:"Dentice Crema 500g", price:11.00, shortDesc:"Dentice crema, confezione da 500 g", images:["images/dentice-crema-500.jpg"] },
-
     { id:"nero-seppia", name:"Nero di Seppia", price:4.50, shortDesc:"Nero di seppia, confezione", images:["images/nero-seppia.jpg"] },
     { id:"polpa-granchio", name:"Polpa di Granchio", price:8.90, shortDesc:"Polpa di granchio, confezione", images:["images/polpa-granchio.jpg"] },
     { id:"polpa-riccio-riunione", name:"Polpa di Riccio Riunione", price:9.50, shortDesc:"Polpa di riccio Riunione, confezione", images:["images/polpa-riccio-riunione.jpg"] },
     { id:"polpa-riccio", name:"Polpa di Riccio", price:9.00, shortDesc:"Polpa di riccio, confezione", images:["images/polpa-riccio.jpg"] },
-
     { id:"salmone-intero-norv", name:"Salmone Intero Norvegese", price:25.00, shortDesc:"Salmone intero norvegese, confezione", images:["images/salmone-intero-norv.jpg"] },
     { id:"salmone-preaff-norv", name:"Salmone Preaffettato Norvegese", price:18.00, shortDesc:"Salmone preaffettato norvegese, confezione", images:["images/salmone-preaff-norv.jpg"] },
-
     { id:"stoccafisso-salato", name:"Stoccafisso Salato", price:12.00, shortDesc:"Stoccafisso salato tradizionale", images:["images/stoccafisso-salato.jpg"] },
     { id:"stoccafisso-secco", name:"Stoccafisso Secco", price:10.00, shortDesc:"Stoccafisso essiccato", images:["images/stoccafisso-secco.jpg"] },
-
     { id:"tonno-corallo", name:"Tonno Corallo", price:8.90, shortDesc:"Tonno Corallo, confezione", images:["images/tonno-corallo.jpg"] },
     { id:"tonno-filetti-acantilado", name:"Tonno Filetti Acantilado", price:9.50, shortDesc:"Filetti di tonno Acantilado, confezione", images:["images/tonno-filetti-acantilado.jpg"] },
     { id:"tonno-filetti-albatros", name:"Tonno Filetti Albatros", price:9.90, shortDesc:"Filetti di tonno Albatros, confezione", images:["images/tonno-filetto-albatros.jpg"] },
-
     { id:"tonno-filone-albaladejo", name:"Tonno Filone Albaladejo", price:14.00, shortDesc:"Tonno filone Albaladejo", images:["images/tonno-filone-albaladejo.jpg"] },
     { id:"tonno-filone-atm", name:"Tonno Filone ATM", price:15.00, shortDesc:"Tonno filone ATM", images:["images/tonno-filone-atm.jpg"] },
-
     { id:"uova-aringa", name:"Uova di Aringa", price:6.50, shortDesc:"Uova di aringa, confezione", images:["images/uova-aringa.jpg"] },
     { id:"uova-lompo", name:"Uova di Lompo", price:5.90, shortDesc:"Uova di lompo, confezione", images:["images/uova-lompo.jpg"] },
     { id:"uova-salmone", name:"Uova di Salmone", price:7.90, shortDesc:"Uova di salmone, confezione", images:["images/uova-salmone.jpg"] }
