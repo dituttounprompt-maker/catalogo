@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Catalogo Prodotti ZANON SEAFISH – Natale 2025 · Stile Rustico</title>
   <style>
-    :root{
-      --rosso:#8b1a1a; --verde:#255c2c; --oro:#c8a75d; --carta:#f6f1e5;
-      --inchiostro:#3a2f1f; --accent:#2aa46d;
-    }
+    :root{ --rosso:#8b1a1a; --verde:#255c2c; --oro:#c8a75d; --carta:#f6f1e5; --inchiostro:#3a2f1f; --accent:#2aa46d; }
     body{ margin:0; padding:0; font-family:Georgia,"Times New Roman",serif; color:var(--inchiostro);
       background:url("images/sfondo-legno.jpg") center/cover fixed no-repeat,#5a3d2b; background-blend-mode:multiply; }
     header{ position:relative; text-align:center; padding:18px 15px 28px;
@@ -45,16 +42,18 @@
     .card::after{ content:""; position:absolute; inset:8px; border:2px dashed rgba(58,47,31,.35); border-radius:8px; pointer-events:none; }
     .card:hover{ transform:translateY(-2px); box-shadow:0 12px 22px rgba(0,0,0,.34) }
     .card img{ width:100%; height:190px; object-fit:cover; display:block }
-    .card-body{ padding:12px 12px 48px } /* spazio per i bottoni */
+    .card-body{ padding:12px 12px 48px }
     .title{ font-weight:800; color:var(--verde); margin:0 0 6px }
     .desc{ margin:0 0 8px }
     .price{ color:var(--accent); font-weight:800 }
     .actions{ position:absolute; right:10px; bottom:10px; display:flex; gap:8px; }
-    .btn-sm{ padding:6px 10px; border-radius:999px; border:1px solid rgba(0,0,0,.2); background:#fff; font-weight:700; cursor:pointer; }
-    .btn-sm:hover{ filter:brightness(0.96) }
+    .icon-btn{ width:40px; height:40px; border-radius:50%; border:1px solid rgba(0,0,0,.2); background:#fff; cursor:pointer;
+      display:inline-flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 2px 6px rgba(0,0,0,.2); }
+    .icon-btn:hover{ filter:brightness(0.96) }
     footer{ max-width:1200px; margin:0 auto 22px; padding:12px 14px; text-align:center; color:#fff;
       background:linear-gradient(90deg,var(--rosso),#6a1a1a); border-radius:10px; border:1px solid rgba(0,0,0,.25);
       box-shadow:0 10px 24px rgba(0,0,0,.35); }
+
     .modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:24px; background:rgba(0,0,0,.65); z-index:1000; }
     .modal.open{ display:flex }
     .modal-content{ background:url("images/sfondo-natale-rustico.jpg") center/cover no-repeat, #2a2319; color:#fff; position:relative;
@@ -66,7 +65,7 @@
     .modal .price{ color:#c9efc9 }
     .modal img{ width:100%; display:block; object-fit:contain; margin:0 auto 14px; background:#fff; border-radius:10px; border:4px solid #fff; box-shadow:0 6px 18px rgba(0,0,0,.45); }
     .close{ position:absolute; top:10px; right:10px; cursor:pointer; border:none; border-radius:999px; background:#fff; color:#222; padding:8px 12px; font-weight:800; box-shadow:0 4px 10px rgba(0,0,0,.35); }
-    .share-modal{ position:absolute; top:10px; left:10px; padding:8px 12px; border-radius:999px; border:none; background:#fff; font-weight:800; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,.35); }
+    .share-fab{ position:absolute; bottom:12px; right:12px; width:48px; height:48px; border-radius:50%; border:none; background:#ffffff; box-shadow:0 4px 10px rgba(0,0,0,.35); cursor:pointer; font-size:22px; display:flex; align-items:center; justify-content:center; }
     @media (max-width:640px){
       header{ padding:14px 12px 20px; margin:14px 10px }
       .bar-left,.bar-right{ position:static; margin:6px 0; text-align:center }
@@ -106,7 +105,7 @@
   <div id="modal" class="modal" role="dialog" aria-modal="true">
     <div class="modal-content">
       <button id="closeBtn" class="close" aria-label="Chiudi">Chiudi</button>
-      <button id="shareBtn" class="share-modal" aria-label="Condividi">Condividi</button>
+      <button id="shareBtn" class="share-fab" title="Condividi" aria-label="Condividi">📤</button>
       <h2 id="mTitle"></h2>
       <div id="mGallery"></div>
       <p id="mDesc"></p>
@@ -117,152 +116,40 @@
 
   <script>
   const PRODUCTS = [
-    {id:"acciughe-filetti-riunione",name:"Acciughe Filetti Riunione",price:6.20,
-     shortDesc:"Acciughe filetti Riunione, confezione",
-     fullDesc:"Filetti di acciughe Riunione selezionati e sott’olio. Ideali per antipasti, pizze e insalate.",
-     images:["images/acciughe-filetti-riunione.jpg"]},
-    {id:"acciughe-filetti",name:"Acciughe Filetti",price:5.90,
-     shortDesc:"Acciughe filetti, confezione",
-     fullDesc:"Filetti di acciughe lavorati a regola d’arte, gusto intenso e pulito.",
-     images:["images/acciughe-filetti.jpg"]},
-    {id:"alici-colatura",name:"Alici Colatura",price:8.00,
-     shortDesc:"Alici colatura, confezione",
-     fullDesc:"Condimento tradizionale a base di alici. Perfetto su spaghetti, verdure e crostini.",
-     images:["images/alici-colatura.jpg"]},
-    {id:"alici-filetti",name:"Alici Filetti",price:5.50,
-     shortDesc:"Alici filetti, confezione",
-     fullDesc:"Filetti di alici dal sapore equilibrato. Ottimi per ricette fredde e calde.",
-     images:["images/alici-filetti.jpg"]},
-    {id:"alici-filetto",name:"Alici Filetto",price:5.50,
-     shortDesc:"Alici filetto, confezione",
-     fullDesc:"Filetto singolo di alici, comodo per porzioni precise e guarnizioni.",
-     images:["images/alici-filetto.jpg"]},
-    {id:"alici-pezzi",name:"Alici Pezzi",price:6.00,
-     shortDesc:"Alici pezzi, confezione",
-     fullDesc:"Pezzi di alici pratici per insalate, paste e focacce.",
-     images:["images/alici-pezzi.jpg"]},
-    {id:"aringa-affumicata",name:"Aringa Affumicata",price:4.90,
-     shortDesc:"Aringa affumicata, confezione",
-     fullDesc:"Filetti di aringa affumicata a caldo. Aroma deciso, texture morbida.",
-     images:["images/aringa-affumicata.jpg"]},
-
-    {id:"baccala-condito-200",name:"Baccalà Condito 200g",price:7.90,
-     shortDesc:"Baccalà condito, confezione da 200 g",
-     fullDesc:"Baccalà già condito. Pronto all’uso per crostini o secondi rapidi.",
-     images:["images/baccala-condito-200.jpg"]},
-    {id:"baccala-mantecato-200",name:"Baccalà Mantecato 200g",price:9.20,
-     shortDesc:"Baccalà mantecato, confezione da 200 g",
-     fullDesc:"Classico mantecato veneto. Cremoso, ideale su polenta e tartine.",
-     images:["images/baccala-mantecato-200.jpg"]},
-    {id:"baccala-umido-150",name:"Baccalà Umido 150g",price:6.80,
-     shortDesc:"Baccalà in umido, confezione da 150 g",
-     fullDesc:"Preparazione in umido dal sapore ricco. Da scaldare e servire.",
-     images:["images/baccala-umido-150.jpg"]},
-    {id:"baccala-vicentina-1",name:"Baccalà alla Vicentina",price:10.90,
-     shortDesc:"Baccalà alla vicentina, confezione",
-     fullDesc:"Ricetta tradizionale alla vicentina. Cottura lenta e gusto autentico.",
-     images:["images/baccala-vicentina-1.jpg"]},
-    {id:"baccala-vicentina-200",name:"Baccalà alla Vicentina 200g",price:11.50,
-     shortDesc:"Baccalà alla vicentina, confezione da 200 g",
-     fullDesc:"Porzione da 200 g della nostra vicentina. Pronta da servire.",
-     images:["images/baccala-vicentina-200.jpg"]},
-
-    {id:"bottarga-muggine",name:"Bottarga di Muggine",price:19.90,
-     shortDesc:"Bottarga di muggine, confezione",
-     fullDesc:"Bottarga stagionata, ideale grattugiata su pasta e risotti.",
-     images:["images/bottarga-muggine.jpg"]},
-    {id:"bottarga-tonno",name:"Bottarga di Tonno",price:21.00,
-     shortDesc:"Bottarga di tonno, confezione",
-     fullDesc:"Bottarga di tonno dal sapore pieno. Per ricette gourmet.",
-     images:["images/bottarga-tonno.jpg"]},
-
-    {id:"caviale-iran-darya",name:"Caviale Iran Darya",price:120.00,
-     shortDesc:"Caviale Iran Darya, confezione",
-     fullDesc:"Selezione pregiata. Per degustazioni e abbinamenti raffinati.",
-     images:["images/caviale-iran-darya.jpg"]},
-    {id:"caviale-royalpop",name:"Caviale Royalpop",price:150.00,
-     shortDesc:"Caviale Royalpop, confezione",
-     fullDesc:"Perle di caviale selezionate. Profilo aromatico complesso.",
-     images:["images/caviale-royalpop.jpg"]},
-
-    {id:"dentice-crema-200",name:"Dentice Crema 200g",price:6.50,
-     shortDesc:"Dentice crema, confezione da 200 g",
-     fullDesc:"Crema spalmabile di dentice. Perfetta per antipasti veloci.",
-     images:["images/dentice-crema-200.jpg"]},
-    {id:"dentice-crema-500",name:"Dentice Crema 500g",price:11.00,
-     shortDesc:"Dentice crema, confezione da 500 g",
-     fullDesc:"Formato famiglia della crema di dentice. Rende fino a 10 tartine.",
-     images:["images/dentice-crema-500.jpg"]},
-
-    {id:"nero-seppia",name:"Nero di Seppia",price:4.50,
-     shortDesc:"Nero di seppia, confezione",
-     fullDesc:"Classico per risotti e paste al nero. Colore intenso, sapore di mare.",
-     images:["images/nero-seppia.jpg"]},
-    {id:"polpa-granchio",name:"Polpa di Granchio",price:8.90,
-     shortDesc:"Polpa di granchio, confezione",
-     fullDesc:"Polpa pronta per insalate di mare, paste fredde e sushi rolls.",
-     images:["images/polpa-granchio.jpg"]},
-    {id:"polpa-riccio-riunione",name:"Polpa di Riccio Riunione",price:9.50,
-     shortDesc:"Polpa di riccio Riunione, confezione",
-     fullDesc:"Gusto marino deciso. Ideale emulsionata con olio per condire pasta.",
-     images:["images/polpa-riccio-riunione.jpg"]},
-    {id:"polpa-riccio",name:"Polpa di Riccio",price:9.00,
-     shortDesc:"Polpa di riccio, confezione",
-     fullDesc:"Polpa pura per ricette mediterranee dal sapore intenso.",
-     images:["images/polpa-riccio.jpg"]},
-
-    {id:"salmone-intero-norv",name:"Salmone Intero Norvegese",price:25.00,
-     shortDesc:"Salmone intero norvegese, confezione",
-     fullDesc:"Salmone intero selezionato. Adatto a cotture al forno o affumicatura.",
-     images:["images/salmone-intero-norv.jpg"]},
-    {id:"salmone-preaff-norv",name:"Salmone Preaffettato Norvegese",price:18.00,
-     shortDesc:"Salmone preaffettato norvegese, confezione",
-     fullDesc:"Fette regolari pronte al servizio. Perfette per antipasti e bagel.",
-     images:["images/salmone-preaff-norv.jpg"]},
-
-    {id:"stoccafisso-salato",name:"Stoccafisso Salato",price:12.00,
-     shortDesc:"Stoccafisso salato tradizionale",
-     fullDesc:"Stoccafisso di qualità. Da ammollare e cucinare secondo ricetta.",
-     images:["images/stoccafisso-salato.jpg"]},
-    {id:"stoccafisso-secco",name:"Stoccafisso Secco",price:10.00,
-     shortDesc:"Stoccafisso essiccato",
-     fullDesc:"Essiccazione naturale. Base per piatti tipici del nord Europa.",
-     images:["images/stoccafisso-secco.jpg"]},
-
-    {id:"tonno-corallo",name:"Tonno Corallo",price:8.90,
-     shortDesc:"Tonno Corallo, confezione",
-     fullDesc:"Tranci in olio. Consistenza compatta, gusto pieno.",
-     images:["images/tonno-corallo.jpg"]},
-    {id:"tonno-filetti-acantilado",name:"Tonno Filetti Acantilado",price:9.50,
-     shortDesc:"Filetti di tonno Acantilado, confezione",
-     fullDesc:"Filetti selezionati. Buoni da soli o in insalate ricche.",
-     images:["images/tonno-filetti-acantilado.jpg"]},
-    {id:"tonno-filetti-albatros",name:"Tonno Filetti Albatros",price:9.90,
-     shortDesc:"Filetti di tonno Albatros, confezione",
-     fullDesc:"Filetti sodi e saporiti. Versatili per molte preparazioni.",
-     images:["images/tonno-filetto-albatros.jpg"]},
-
-    {id:"tonno-filone-albaladejo",name:"Tonno Filone Albaladejo",price:14.00,
-     shortDesc:"Tonno filone Albaladejo",
-     fullDesc:"Filone di tonno per taglio fresco o tranci. Alta resa.",
-     images:["images/tonno-filone-albaladejo.jpg"]},
-    {id:"tonno-filone-atm",name:"Tonno Filone ATM",price:15.00,
-     shortDesc:"Tonno filone ATM",
-     fullDesc:"Filone confezionato in ATM per migliore conservazione.",
-     images:["images/tonno-filone-atm.jpg"]},
-
-    {id:"uova-aringa",name:"Uova di Aringa",price:6.50,
-     shortDesc:"Uova di aringa, confezione",
-     fullDesc:"Per tartine e sushi. Grana fine, sapore affumicato leggero.",
-     images:["images/uova-aringa.jpg"]},
-    {id:"uova-lompo",name:"Uova di Lompo",price:5.90,
-     shortDesc:"Uova di lompo, confezione",
-     fullDesc:"Classiche per decorazioni e finger food. Colore brillante.",
-     images:["images/uova-lompo.jpg"]},
-    {id:"uova-salmone",name:"Uova di Salmone",price:7.90,
-     shortDesc:"Uova di salmone, confezione",
-     fullDesc:"Uova corpose dal gusto delicato. Perfette su blinis e avocado toast.",
-     images:["images/uova-salmone.jpg"]}
+    {id:"acciughe-filetti-riunione",name:"Acciughe Filetti Riunione",price:6.20,shortDesc:"Acciughe filetti Riunione, confezione",fullDesc:"Filetti di acciughe Riunione selezionati e sott’olio. Ideali per antipasti, pizze e insalate.",images:["images/acciughe-filetti-riunione.jpg"]},
+    {id:"acciughe-filetti",name:"Acciughe Filetti",price:5.90,shortDesc:"Acciughe filetti, confezione",fullDesc:"Filetti di acciughe lavorati a regola d’arte, gusto intenso e pulito.",images:["images/acciughe-filetti.jpg"]},
+    {id:"alici-colatura",name:"Alici Colatura",price:8.00,shortDesc:"Alici colatura, confezione",fullDesc:"Condimento tradizionale a base di alici. Perfetto su spaghetti, verdure e crostini.",images:["images/alici-colatura.jpg"]},
+    {id:"alici-filetti",name:"Alici Filetti",price:5.50,shortDesc:"Alici filetti, confezione",fullDesc:"Filetti di alici dal sapore equilibrato. Ottimi per ricette fredde e calde.",images:["images/alici-filetti.jpg"]},
+    {id:"alici-filetto",name:"Alici Filetto",price:5.50,shortDesc:"Alici filetto, confezione",fullDesc:"Filetto singolo di alici, comodo per porzioni precise e guarnizioni.",images:["images/alici-filetto.jpg"]},
+    {id:"alici-pezzi",name:"Alici Pezzi",price:6.00,shortDesc:"Alici pezzi, confezione",fullDesc:"Pezzi di alici pratici per insalate, paste e focacce.",images:["images/alici-pezzi.jpg"]},
+    {id:"aringa-affumicata",name:"Aringa Affumicata",price:4.90,shortDesc:"Aringa affumicata, confezione",fullDesc:"Filetti di aringa affumicata a caldo. Aroma deciso, texture morbida.",images:["images/aringa-affumicata.jpg"]},
+    {id:"baccala-condito-200",name:"Baccalà Condito 200g",price:7.90,shortDesc:"Baccalà condito, confezione da 200 g",fullDesc:"Baccalà già condito. Pronto all’uso per crostini o secondi rapidi.",images:["images/baccala-condito-200.jpg"]},
+    {id:"baccala-mantecato-200",name:"Baccalà Mantecato 200g",price:9.20,shortDesc:"Baccalà mantecato, confezione da 200 g",fullDesc:"Classico mantecato veneto. Cremoso, ideale su polenta e tartine.",images:["images/baccala-mantecato-200.jpg"]},
+    {id:"baccala-umido-150",name:"Baccalà Umido 150g",price:6.80,shortDesc:"Baccalà in umido, confezione da 150 g",fullDesc:"Preparazione in umido dal sapore ricco. Da scaldare e servire.",images:["images/baccala-umido-150.jpg"]},
+    {id:"baccala-vicentina-1",name:"Baccalà alla Vicentina",price:10.90,shortDesc:"Baccalà alla vicentina, confezione",fullDesc:"Ricetta tradizionale alla vicentina. Cottura lenta e gusto autentico.",images:["images/baccala-vicentina-1.jpg"]},
+    {id:"baccala-vicentina-200",name:"Baccalà alla Vicentina 200g",price:11.50,shortDesc:"Baccalà alla vicentina, confezione da 200 g",fullDesc:"Porzione da 200 g della nostra vicentina. Pronta da servire.",images:["images/baccala-vicentina-200.jpg"]},
+    {id:"bottarga-muggine",name:"Bottarga di Muggine",price:19.90,shortDesc:"Bottarga di muggine, confezione",fullDesc:"Bottarga stagionata, ideale grattugiata su pasta e risotti.",images:["images/bottarga-muggine.jpg"]},
+    {id:"bottarga-tonno",name:"Bottarga di Tonno",price:21.00,shortDesc:"Bottarga di tonno, confezione",fullDesc:"Bottarga di tonno dal sapore pieno. Per ricette gourmet.",images:["images/bottarga-tonno.jpg"]},
+    {id:"caviale-iran-darya",name:"Caviale Iran Darya",price:120.00,shortDesc:"Caviale Iran Darya, confezione",fullDesc:"Selezione pregiata. Per degustazioni e abbinamenti raffinati.",images:["images/caviale-iran-darya.jpg"]},
+    {id:"caviale-royalpop",name:"Caviale Royalpop",price:150.00,shortDesc:"Caviale Royalpop, confezione",fullDesc:"Perle di caviale selezionate. Profilo aromatico complesso.",images:["images/caviale-royalpop.jpg"]},
+    {id:"dentice-crema-200",name:"Dentice Crema 200g",price:6.50,shortDesc:"Dentice crema, confezione da 200 g",fullDesc:"Crema spalmabile di dentice. Perfetta per antipasti veloci.",images:["images/dentice-crema-200.jpg"]},
+    {id:"dentice-crema-500",name:"Dentice Crema 500g",price:11.00,shortDesc:"Dentice crema, confezione da 500 g",fullDesc:"Formato famiglia della crema di dentice. Rende fino a 10 tartine.",images:["images/dentice-crema-500.jpg"]},
+    {id:"nero-seppia",name:"Nero di Seppia",price:4.50,shortDesc:"Nero di seppia, confezione",fullDesc:"Classico per risotti e paste al nero. Colore intenso, sapore di mare.",images:["images/nero-seppia.jpg"]},
+    {id:"polpa-granchio",name:"Polpa di Granchio",price:8.90,shortDesc:"Polpa di granchio, confezione",fullDesc:"Polpa pronta per insalate di mare, paste fredde e sushi rolls.",images:["images/polpa-granchio.jpg"]},
+    {id:"polpa-riccio-riunione",name:"Polpa di Riccio Riunione",price:9.50,shortDesc:"Polpa di riccio Riunione, confezione",fullDesc:"Gusto marino deciso. Ideale emulsionata con olio per condire pasta.",images:["images/polpa-riccio-riunione.jpg"]},
+    {id:"polpa-riccio",name:"Polpa di Riccio",price:9.00,shortDesc:"Polpa di riccio, confezione",fullDesc:"Polpa pura per ricette mediterranee dal sapore intenso.",images:["images/polpa-riccio.jpg"]},
+    {id:"salmone-intero-norv",name:"Salmone Intero Norvegese",price:25.00,shortDesc:"Salmone intero norvegese, confezione",fullDesc:"Salmone intero selezionato. Adatto a cotture al forno o affumicatura.",images:["images/salmone-intero-norv.jpg"]},
+    {id:"salmone-preaff-norv",name:"Salmone Preaffettato Norvegese",price:18.00,shortDesc:"Salmone preaffettato norvegese, confezione",fullDesc:"Fette regolari pronte al servizio. Perfette per antipasti e bagel.",images:["images/salmone-preaff-norv.jpg"]},
+    {id:"stoccafisso-salato",name:"Stoccafisso Salato",price:12.00,shortDesc:"Stoccafisso salato tradizionale",fullDesc:"Stoccafisso di qualità. Da ammollare e cucinare secondo ricetta.",images:["images/stoccafisso-salato.jpg"]},
+    {id:"stoccafisso-secco",name:"Stoccafisso Secco",price:10.00,shortDesc:"Stoccafisso essiccato",fullDesc:"Essiccazione naturale. Base per piatti tipici del nord Europa.",images:["images/stoccafisso-secco.jpg"]},
+    {id:"tonno-corallo",name:"Tonno Corallo",price:8.90,shortDesc:"Tonno Corallo, confezione",fullDesc:"Tranci in olio. Consistenza compatta, gusto pieno.",images:["images/tonno-corallo.jpg"]},
+    {id:"tonno-filetti-acantilado",name:"Tonno Filetti Acantilado",price:9.50,shortDesc:"Filetti di tonno Acantilado, confezione",fullDesc:"Filetti selezionati. Buoni da soli o in insalate ricche.",images:["images/tonno-filetti-acantilado.jpg"]},
+    {id:"tonno-filetti-albatros",name:"Tonno Filetti Albatros",price:9.90,shortDesc:"Filetti di tonno Albatros, confezione",fullDesc:"Filetti sodi e saporiti. Versatili per molte preparazioni.",images:["images/tonno-filetto-albatros.jpg"]},
+    {id:"tonno-filone-albaladejo",name:"Tonno Filone Albaladejo",price:14.00,shortDesc:"Tonno filone Albaladejo",fullDesc:"Filone di tonno per taglio fresco o tranci. Alta resa.",images:["images/tonno-filone-albaladejo.jpg"]},
+    {id:"tonno-filone-atm",name:"Tonno Filone ATM",price:15.00,shortDesc:"Tonno filone ATM",fullDesc:"Filone confezionato in ATM per migliore conservazione.",images:["images/tonno-filone-atm.jpg"]},
+    {id:"uova-aringa",name:"Uova di Aringa",price:6.50,shortDesc:"Uova di aringa, confezione",fullDesc:"Per tartine e sushi. Grana fine, sapore affumicato leggero.",images:["images/uova-aringa.jpg"]},
+    {id:"uova-lompo",name:"Uova di Lompo",price:5.90,shortDesc:"Uova di lompo, confezione",fullDesc:"Classiche per decorazioni e finger food. Colore brillante.",images:["images/uova-lompo.jpg"]},
+    {id:"uova-salmone",name:"Uova di Salmone",price:7.90,shortDesc:"Uova di salmone, confezione",fullDesc:"Uova corpose dal gusto delicato. Perfette su blinis e avocado toast.",images:["images/uova-salmone.jpg"]}
   ];
 
   const grid = document.getElementById("grid");
@@ -276,7 +163,6 @@
   const mGallery = document.getElementById("mGallery");
   const closeBtn = document.getElementById("closeBtn");
   const shareBtn = document.getElementById("shareBtn");
-
   let currentId = null;
 
   function cardTemplate(p){
@@ -289,7 +175,7 @@
           <div class="price">€${p.price.toFixed(2)}</div>
         </div>
         <div class="actions" onclick="event.stopPropagation()">
-          <button class="btn-sm" onclick="shareProduct('${p.id}')">Condividi</button>
+          <button class="icon-btn" title="Condividi" aria-label="Condividi" onclick="shareProduct('${p.id}')">📤</button>
         </div>
       </div>`;
   }
@@ -304,33 +190,30 @@
     return `${base}#${encodeURIComponent(id)}`;
   }
 
+  function isAndroid(){ return /Android/i.test(navigator.userAgent); }
+  function isIOS(){ return /iPhone|iPad|iPod/i.test(navigator.userAgent); }
+
   async function shareProduct(id){
     const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
     const imgUrl = new URL(p.images[0], location.href).href;
-    const text = `${p.name} – €${p.price.toFixed(2)}\n${p.shortDesc||""}\n${productUrl(p.id)}`;
+    const deep = `${p.name} – €${p.price.toFixed(2)}\n${p.shortDesc||""}\n${productUrl(p.id)}`;
 
-    // Web Share API con file, se supportato
     try{
-      if (navigator.canShare && window.File && window.Blob) {
-        const resp = await fetch(imgUrl, {mode:"cors"});
+      if (navigator.canShare && window.File && window.Blob){
+        const resp = await fetch(imgUrl,{mode:"cors"});
         const blob = await resp.blob();
-        const file = new File([blob], p.id + ".jpg", {type: blob.type || "image/jpeg"});
-        const data = { title: p.name, text, files: [file] };
-        if (navigator.canShare(data)) {
-          await navigator.share(data);
-          return;
-        }
+        const file = new File([blob], `${p.id}.jpg`, {type: blob.type || "image/jpeg"});
+        const data = { title:p.name, text:deep, files:[file] };
+        if (navigator.canShare(data)){ await navigator.share(data); return; }
       }
-      if (navigator.share) {
-        await navigator.share({ title: p.name, text, url: imgUrl }); // URL immagine per preview
-        return;
-      }
-    }catch(e){ /* fallback sotto */ }
+      if (navigator.share){ await navigator.share({title:p.name, text:deep, url:imgUrl}); return; }
+    }catch(e){}
 
-    // Fallback WhatsApp: prima l’URL immagine per anteprima, poi descrizione e link scheda
-    const waMsg = `${imgUrl}\n${p.name} – €${p.price.toFixed(2)}\n${p.shortDesc||""}\n${productUrl(p.id)}`;
-    const waUrl = `https://wa.me/?text=${encodeURIComponent(waMsg)}`;
-    window.open(waUrl, "_blank");
+    const encoded = encodeURIComponent(`${imgUrl}\n${deep}`);
+    if (isAndroid()){ location.href = `intent://send/?text=${encoded}#Intent;scheme=whatsapp;package=com.whatsapp;end`; return; }
+    if (isIOS()){ location.href = `whatsapp://send?text=${encoded}`; return; }
+
+    location.href = `https://wa.me/?text=${encoded}`;
   }
 
   function openModal(id){
@@ -376,7 +259,6 @@
   });
 
   render();
-  // Apri modale se arrivo da link #id
   if(location.hash){
     const id = decodeURIComponent(location.hash.slice(1));
     if (PRODUCTS.some(p=>p.id===id)) openModal(id);
