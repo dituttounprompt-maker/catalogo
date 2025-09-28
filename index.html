@@ -149,13 +149,15 @@
     return `${base}#${encodeURIComponent(id)}`;
   }
 
+  function isAndroid(){ return /Android/i.test(navigator.userAgent); }
+  function isIOS(){ return /iPhone|iPad|iPod/i.test(navigator.userAgent); }
+
   async function shareProduct(id){
     const p=PRODUCTS.find(x=>x.id===id); if(!p) return;
     const imgUrl=new URL(p.images[0],location.href).href;
     const text=`${p.name} – €${p.price.toFixed(2)}\n${p.shortDesc||""}\n${productUrl(p.id)}`;
 
     try{
-      // tenta file share se supportato
       if(navigator.canShare && window.File && window.Blob){
         const resp=await fetch(imgUrl,{mode:"cors"});
         const blob=await resp.blob();
@@ -163,13 +165,13 @@
         const data={title:p.name,text,files:[file]};
         if(navigator.canShare(data)){ await navigator.share(data); return; }
       }
-      // fallback Web Share con URL immagine per anteprima
       if(navigator.share){ await navigator.share({title:p.name,text,url:imgUrl}); return; }
-    }catch(e){/* passa ai fallback sotto */ }
+    }catch(e){}
 
-    // WhatsApp fallback: anteprima immagine + testo
-    const wa=`https://wa.me/?text=${encodeURIComponent(`${imgUrl}\n${text}`)}`;
-    window.open(wa,"_blank");
+    const payload=encodeURIComponent(`${imgUrl}\n${text}`);
+    if(isAndroid()){ location.href=`intent://send/?text=${payload}#Intent;scheme=whatsapp;package=com.whatsapp;end`; return; }
+    if(isIOS()){ location.href=`whatsapp://send?text=${payload}`; return; }
+    location.href=`https://wa.me/?text=${payload}`;
   }
 
   function openModal(id){
