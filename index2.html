@@ -28,13 +28,21 @@
     .title{font-weight:bold;margin:0 0 10px;color:var(--rosso)}
     .price{color:var(--verde-accent);font-weight:bold;margin:10px 0}
     footer{margin-top:30px;padding:16px;text-align:center;color:#fff;background:var(--rosso);border-top:6px solid #004d00}
-    /* Modal */
+    /* Modal overlay */
     .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;
            padding:20px;z-index:1000}
     .modal.open{display:flex}
-    .modal-content{background:#fff;border-radius:10px;max-width:800px;width:100%;padding:20px;position:relative;
-                   max-height:90vh;overflow:auto;box-shadow:0 10px 24px rgba(0,0,0,.35)}
-    .modal-content img{width:100%;object-fit:contain;display:block;margin:0 auto 15px}
+    /* Modal con sfondo immagine */
+    .modal-content{
+      background:url("images/sfondo-natale.jpg") center/cover no-repeat;
+      border-radius:10px;max-width:800px;width:100%;padding:20px;position:relative;
+      max-height:90vh;overflow:auto;box-shadow:0 10px 24px rgba(0,0,0,.35);color:#fff
+    }
+    .modal-content::before{
+      content:"";position:absolute;inset:0;border-radius:10px;background:rgba(0,0,0,.40);z-index:0
+    }
+    .modal-content > *{position:relative;z-index:1}
+    .modal-content img{width:100%;object-fit:contain;display:block;margin:0 auto 15px;background:#fff;border-radius:8px}
     .close{position:absolute;top:10px;right:10px;border:none;background:#eee;border-radius:6px;padding:6px 10px;cursor:pointer}
     @media (max-width:640px){
       header{padding:10px 12px 20px}
