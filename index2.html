@@ -6,7 +6,10 @@
   <title>Catalogo Prodotti ZANON SEAFISH – Natale 2025</title>
   <style>
     :root{--rosso:#b30000;--verde:#1f7a1f;--verde-accent:#28a745;--bianco:#ffffff}
-    body{font-family:Arial,sans-serif;margin:0;padding:0;background:linear-gradient(135deg,var(--rosso) 0%,#004d00 100%)}
+    body{
+      font-family:Arial,sans-serif;margin:0;padding:0;
+      background:url("images/sfondo_card_natale.png") center/cover fixed no-repeat
+    }
 
     header{background:var(--bianco);color:var(--rosso);padding:15px 15px 36px;position:relative;text-align:center;
            border-bottom:6px solid var(--rosso);box-shadow:0 6px 16px rgba(0,0,0,.2)}
@@ -16,18 +19,23 @@
     .search{position:absolute;top:12px;right:12px}
     .search input{width:220px;max-width:38vw;padding:8px 10px;border-radius:6px;border:1px solid #ccc}
 
-    /* Titolo glow sfumato */
-    h1{margin:8px 0 0;font-weight:800;color:var(--rosso)}
-    .glow{
-      animation: glow 2.4s ease-in-out infinite alternate;
-      text-shadow: 0 0 0 rgba(255,0,0,0);
+    /* Titolo in due righe con gradiente lampeggiante */
+    .titoloNatale{margin:8px 0 0;text-align:center;font-weight:800;line-height:1.15;color:var(--rosso)}
+    .titoloNatale .grad{
+      display:inline-block;
+      background:linear-gradient(90deg,#b30000,#ffcc00,#b30000);
+      background-size:200% 100%;
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+      animation:gradGlow 2.8s ease-in-out infinite;
+      text-shadow:0 0 8px rgba(255,255,255,.35)
     }
-    @keyframes glow{
-      from{ text-shadow:0 0 6px rgba(255,255,255,.5), 0 0 10px rgba(255,0,0,.35), 0 0 18px rgba(255,0,0,.25); }
-      to  { text-shadow:0 0 14px rgba(255,255,255,.9), 0 0 28px rgba(255,0,0,.55), 0 0 46px rgba(255,0,0,.45); }
+    @keyframes gradGlow{
+      0%{background-position:0% 50%;text-shadow:0 0 6px rgba(255,255,255,.4)}
+      50%{background-position:100% 50%;text-shadow:0 0 14px rgba(255,255,255,.8)}
+      100%{background-position:0% 50%;text-shadow:0 0 6px rgba(255,255,255,.4)}
     }
 
-    .muted{color:#666}
+    .muted{color:#333}
     .container{max-width:1200px;margin:20px auto;padding:0 15px}
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
 
@@ -51,7 +59,7 @@
       max-height:90vh;overflow:auto;box-shadow:0 10px 24px rgba(0,0,0,.35);color:#fff
     }
     .modal-content::before{content:"";position:absolute;inset:0;border-radius:10px;background:rgba(0,0,0,.40);z-index:0}
-    .modal-content > *{position:relative;z-index:1}
+    .modal-content>*{position:relative;z-index:1}
     .modal-content img{width:100%;object-fit:contain;display:block;margin:0 auto 15px;background:#fff;border-radius:8px}
     .close{position:absolute;top:10px;right:10px;border:none;background:#eee;border-radius:6px;padding:6px 10px;cursor:pointer}
 
@@ -60,7 +68,7 @@
       .contact,.search{position:static;margin:6px 0;text-align:center}
       .search input{width:90%;max-width:320px}
       header img{height:60px !important;margin:6px auto 8px !important}
-      h1{font-size:1.3rem;line-height:1.2}
+      .titoloNatale{font-size:1.3rem;line-height:1.2}
     }
   </style>
 </head>
@@ -73,7 +81,10 @@
          style="height:80px;display:block;margin:0 auto 10px"
          onerror="this.onerror=null;this.src='images/default.png';">
 
-    <h1 class="glow">🎄❄️ Catalogo Prodotti – OFFERTE NATALE 2025 🎁🎄</h1>
+    <h1 class="titoloNatale">
+      <span class="grad">Catalogo Prodotti</span><br>
+      🎄❄️ <span class="grad">OFFERTE NATALE 2025</span> 🎁🎄
+    </h1>
     <div id="count" class="muted" style="margin-top:6px"></div>
   </header>
 
@@ -171,20 +182,20 @@
      images:["images/dentice-crema-200.jpg"]},
     {id:"dentice-crema-500",name:"Dentice Crema 500g",price:11.00,
      shortDesc:"Dentice crema, confezione da 500 g",
-     fullDesc:"Formato famiglia. Rende fino a 10 tartine.",
+     fullDesc:"Formato famiglia della crema di dentice. Rende fino a 10 tartine.",
      images:["images/dentice-crema-500.jpg"]},
 
     {id:"nero-seppia",name:"Nero di Seppia",price:4.50,
      shortDesc:"Nero di seppia, confezione",
-     fullDesc:"Per risotti e paste al nero. Colore intenso, sapore di mare.",
+     fullDesc:"Classico per risotti e paste al nero. Colore intenso, sapore di mare.",
      images:["images/nero-seppia.jpg"]},
     {id:"polpa-granchio",name:"Polpa di Granchio",price:8.90,
      shortDesc:"Polpa di granchio, confezione",
-     fullDesc:"Pronta per insalate di mare, paste fredde e sushi rolls.",
+     fullDesc:"Polpa pronta per insalate di mare, paste fredde e sushi rolls.",
      images:["images/polpa-granchio.jpg"]},
     {id:"polpa-riccio-riunione",name:"Polpa di Riccio Riunione",price:9.50,
      shortDesc:"Polpa di riccio Riunione, confezione",
-     fullDesc:"Gusto marino deciso. Ottima emulsionata con olio per condire pasta.",
+     fullDesc:"Gusto marino deciso. Ideale emulsionata con olio per condire pasta.",
      images:["images/polpa-riccio-riunione.jpg"]},
     {id:"polpa-riccio",name:"Polpa di Riccio",price:9.00,
      shortDesc:"Polpa di riccio, confezione",
@@ -193,20 +204,20 @@
 
     {id:"salmone-intero-norv",name:"Salmone Intero Norvegese",price:25.00,
      shortDesc:"Salmone intero norvegese, confezione",
-     fullDesc:"Selezione per forno o affumicatura.",
+     fullDesc:"Salmone intero selezionato. Adatto a cotture al forno o affumicatura.",
      images:["images/salmone-intero-norv.jpg"]},
     {id:"salmone-preaff-norv",name:"Salmone Preaffettato Norvegese",price:18.00,
      shortDesc:"Salmone preaffettato norvegese, confezione",
-     fullDesc:"Fette regolari pronte al servizio.",
+     fullDesc:"Fette regolari pronte al servizio. Perfette per antipasti e bagel.",
      images:["images/salmone-preaff-norv.jpg"]},
 
     {id:"stoccafisso-salato",name:"Stoccafisso Salato",price:12.00,
      shortDesc:"Stoccafisso salato tradizionale",
-     fullDesc:"Da ammollare e cucinare secondo ricetta.",
+     fullDesc:"Stoccafisso di qualità. Da ammollare e cucinare secondo ricetta.",
      images:["images/stoccafisso-salato.jpg"]},
     {id:"stoccafisso-secco",name:"Stoccafisso Secco",price:10.00,
      shortDesc:"Stoccafisso essiccato",
-     fullDesc:"Base per piatti tipici del nord Europa.",
+     fullDesc:"Essiccazione naturale. Base per piatti tipici del nord Europa.",
      images:["images/stoccafisso-secco.jpg"]},
 
     {id:"tonno-corallo",name:"Tonno Corallo",price:8.90,
@@ -224,7 +235,7 @@
 
     {id:"tonno-filone-albaladejo",name:"Tonno Filone Albaladejo",price:14.00,
      shortDesc:"Tonno filone Albaladejo",
-     fullDesc:"Filone per taglio fresco o tranci. Alta resa.",
+     fullDesc:"Filone di tonno per taglio fresco o tranci. Alta resa.",
      images:["images/tonno-filone-albaladejo.jpg"]},
     {id:"tonno-filone-atm",name:"Tonno Filone ATM",price:15.00,
      shortDesc:"Tonno filone ATM",
@@ -237,7 +248,7 @@
      images:["images/uova-aringa.jpg"]},
     {id:"uova-lompo",name:"Uova di Lompo",price:5.90,
      shortDesc:"Uova di lompo, confezione",
-     fullDesc:"Decorazioni e finger food. Colore brillante.",
+     fullDesc:"Classiche per decorazioni e finger food. Colore brillante.",
      images:["images/uova-lompo.jpg"]},
     {id:"uova-salmone",name:"Uova di Salmone",price:7.90,
      shortDesc:"Uova di salmone, confezione",
@@ -259,8 +270,7 @@
   function cardTemplate(p){
     return `
       <div class="card" onclick="openModal('${p.id}')">
-        <img src="${p.images[0]}" alt="${p.name}"
-             onerror="this.onerror=null;this.src='images/default.png';">
+        <img src="${p.images[0]}" alt="${p.name}" onerror="this.onerror=null;this.src='images/default.png';">
         <div class="card-body">
           <div class="title">${p.name}</div>
           <div>${p.shortDesc}</div>
