@@ -19,15 +19,11 @@
     .search{position:absolute;top:12px;right:12px}
     .search input{width:220px;max-width:38vw;padding:8px 10px;border-radius:6px;border:1px solid #ccc}
 
-    /* Titolo in due righe con gradiente lampeggiante */
     .titoloNatale{margin:8px 0 0;text-align:center;font-weight:800;line-height:1.15;color:var(--rosso)}
     .titoloNatale .grad{
-      display:inline-block;
-      background:linear-gradient(90deg,#b30000,#ffcc00,#b30000);
-      background-size:200% 100%;
-      -webkit-background-clip:text;background-clip:text;color:transparent;
-      animation:gradGlow 2.8s ease-in-out infinite;
-      text-shadow:0 0 8px rgba(255,255,255,.35)
+      display:inline-block;background:linear-gradient(90deg,#b30000,#ffcc00,#b30000);
+      background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+      animation:gradGlow 2.8s ease-in-out infinite;text-shadow:0 0 8px rgba(255,255,255,.35)
     }
     @keyframes gradGlow{
       0%{background-position:0% 50%;text-shadow:0 0 6px rgba(255,255,255,.4)}
@@ -40,12 +36,18 @@
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
 
     .card{background:#fff;border:2px solid var(--rosso);border-radius:12px;box-shadow:0 0 12px rgba(0,128,0,.25);
-          overflow:hidden;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}
+          overflow:hidden;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;position:relative}
     .card:hover{transform:scale(1.02);box-shadow:0 8px 18px rgba(0,0,0,.25)}
     .card img{width:100%;height:180px;object-fit:cover;display:block}
     .card-body{padding:15px}
     .title{font-weight:bold;margin:0 0 10px;color:var(--rosso)}
     .price{color:var(--verde-accent);font-weight:bold;margin:10px 0}
+
+    /* Pulsante condividi (non cambia lo stile generale) */
+    .actions{position:absolute;right:10px;bottom:10px}
+    .icon-btn{width:42px;height:42px;border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;
+      background:#ffffff;box-shadow:0 4px 10px rgba(0,0,0,.25);cursor:pointer}
+    .icon-btn img{width:22px;height:22px;display:block}
 
     footer{margin-top:30px;padding:16px;text-align:center;color:#fff;background:var(--rosso);border-top:6px solid #004d00}
 
@@ -62,14 +64,8 @@
     .modal-content>*{position:relative;z-index:1}
     .modal-content img{width:100%;object-fit:contain;display:block;margin:0 auto 15px;background:#fff;border-radius:8px}
     .close{position:absolute;top:10px;right:10px;border:none;background:#eee;border-radius:6px;padding:6px 10px;cursor:pointer}
-
-    @media (max-width:640px){
-      header{padding:10px 12px 20px}
-      .contact,.search{position:static;margin:6px 0;text-align:center}
-      .search input{width:90%;max-width:320px}
-      header img{height:60px !important;margin:6px auto 8px !important}
-      .titoloNatale{font-size:1.3rem;line-height:1.2}
-    }
+    /* share icon nella modale */
+    .share-modal{position:absolute;bottom:12px;right:12px}
   </style>
 </head>
 <body>
@@ -103,6 +99,11 @@
       <p id="mDesc"></p>
       <p id="mFullDesc"></p>
       <p id="mPrice" class="price"></p>
+      <div class="share-modal">
+        <button id="shareBtn" class="icon-btn" title="Condividi" aria-label="Condividi">
+          <img src="images/share.png" alt="Condividi">
+        </button>
+      </div>
     </div>
   </div>
 
@@ -266,6 +267,9 @@
   const mPrice=document.getElementById("mPrice");
   const mGallery=document.getElementById("mGallery");
   const closeBtn=document.getElementById("closeBtn");
+  const shareBtn=document.getElementById("shareBtn");
+
+  let currentId=null;
 
   function cardTemplate(p){
     return `
@@ -273,8 +277,13 @@
         <img src="${p.images[0]}" alt="${p.name}" onerror="this.onerror=null;this.src='images/default.png';">
         <div class="card-body">
           <div class="title">${p.name}</div>
-          <div>${p.shortDesc}</div>
+          <div>${p.shortDesc||""}</div>
           <div class="price">€${p.price.toFixed(2)}</div>
+        </div>
+        <div class="actions" onclick="event.stopPropagation()">
+          <button class="icon-btn" title="Condividi" aria-label="Condividi" onclick="shareProduct('${p.id}')">
+            <img src="images/share.png" alt="Condividi">
+          </button>
         </div>
       </div>`;
   }
@@ -284,8 +293,38 @@
     count.textContent=list.length===PRODUCTS.length?`${list.length} prodotti`:`${list.length} risultati`;
   }
 
+  function productUrl(id){
+    const base=location.origin+location.pathname;
+    return `${base}#${encodeURIComponent(id)}`;
+  }
+  function isAndroid(){ return /Android/i.test(navigator.userAgent); }
+  function isIOS(){ return /iPhone|iPad|iPod/i.test(navigator.userAgent); }
+
+  async function shareProduct(id){
+    const p=PRODUCTS.find(x=>x.id===id); if(!p) return;
+    const imgUrl=new URL(p.images[0],location.href).href;
+    const text=`${p.name} – €${p.price.toFixed(2)}\n${p.shortDesc||""}\n${productUrl(p.id)}`;
+
+    try{
+      if(navigator.canShare && window.File && window.Blob){
+        const resp=await fetch(imgUrl,{mode:"cors"});
+        const blob=await resp.blob();
+        const file=new File([blob], `${p.id}.jpg`, {type: blob.type||"image/jpeg"});
+        const data={title:p.name,text,files:[file]};
+        if(navigator.canShare(data)){ await navigator.share(data); return; }
+      }
+      if(navigator.share){ await navigator.share({title:p.name,text,url:imgUrl}); return; }
+    }catch(e){}
+
+    const payload=encodeURIComponent(`${imgUrl}\n${text}`);
+    if(isAndroid()){ location.href=`intent://send/?text=${payload}#Intent;scheme=whatsapp;package=com.whatsapp;end`; return; }
+    if(isIOS()){ location.href=`whatsapp://send?text=${payload}`; return; }
+    location.href=`https://wa.me/?text=${payload}`;
+  }
+
   function openModal(id){
     const p=PRODUCTS.find(x=>x.id===id); if(!p) return;
+    currentId=id;
     mTitle.textContent=p.name;
     mDesc.textContent=p.shortDesc||"";
     mFullDesc.textContent=p.fullDesc||"";
@@ -294,19 +333,28 @@
       `<img src="${src}" alt="${p.name}" onerror="this.onerror=null;this.src='images/default.png';">`
     ).join("");
     modal.classList.add("open");
-    history.pushState({modal:true},"");
+    if(location.hash!=="#"+id) history.pushState({modal:true,id},"","#"+id);
   }
 
   function closeModal(){
     if(!modal.classList.contains("open")) return;
     modal.classList.remove("open");
-    if(history.state && history.state.modal){ history.back(); }
+    currentId=null;
+    if(location.hash) history.pushState("",document.title,location.pathname+location.search);
   }
 
   closeBtn.onclick=closeModal;
+  shareBtn.onclick=()=>{ if(currentId) shareProduct(currentId); };
   modal.addEventListener("click",e=>{ if(e.target===modal) closeModal(); });
   window.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
-  window.addEventListener("popstate",()=>{ if(modal.classList.contains("open")) modal.classList.remove("open"); });
+  window.addEventListener("popstate",()=>{
+    if(location.hash){
+      const id=decodeURIComponent(location.hash.slice(1));
+      if(!modal.classList.contains("open")) openModal(id);
+    }else{
+      if(modal.classList.contains("open")) modal.classList.remove("open");
+    }
+  });
 
   q.addEventListener("input",()=>{
     const term=q.value.trim().toLowerCase();
