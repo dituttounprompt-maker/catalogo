@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Catalogo Prodotti ZANON SEAFISH – Natale 2025</title>
+  <style>
+    :root{--rosso:#b30000;--verde:#1f7a1f;--verde-accent:#28a745;--bianco:#ffffff}
+    body{
+      font-family:Arial,sans-serif;margin:0;padding:0;
+      background:url("images/sfondo_card_natale.png") center/cover fixed no-repeat
+    }
+    /* Header */
+    header{background:var(--bianco);color:var(--rosso);padding:15px 15px 36px;position:relative;text-align:center;
+           border-bottom:6px solid var(--rosso);box-shadow:0 6px 16px rgba(0,0,0,.2)}
+    .contact{position:absolute;top:12px;left:12px}
+    .contact a{background:var(--verde-accent);color:#fff;padding:8px 14px;border-radius:6px;font-weight:bold;
+               text-decoration:none;display:inline-flex;gap:6px;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+    .search{position:absolute;top:12px;right:12px}
+    .search input{width:220px;max-width:38vw;padding:8px 10px;border-radius:6px;border:1px solid #ccc}
+    /* Titolo 2 righe gradiente lampeggiante */
+    .titoloNatale{margin:8px 0 0;text-align:center;font-weight:800;line-height:1.15;color:var(--rosso)}
+    .titoloNatale .grad{
+      display:inline-block;
+      background:linear-gradient(90deg,#b30000,#ffcc00,#b30000);
+      background-size:200% 100%;
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+      animation:gradGlow 2.8s ease-in-out infinite;
+      text-shadow:0 0 8px rgba(255,255,255,.35)
+    }
+    @keyframes gradGlow{
+      0%{background-position:0% 50%;text-shadow:0 0 6px rgba(255,255,255,.4)}
+      50%{background-position:100% 50%;text-shadow:0 0 14px rgba(255,255,255,.8)}
+      100%{background-position:0% 50%;text-shadow:0 0 6px rgba(255,255,255,.4)}
+    }
+    .muted{color:#333}
+    /* Grid */
+    .container{max-width:1200px;margin:20px auto;padding:0 15px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+    /* Card */
+    .card{background:#fff;border:2px solid var(--rosso);border-radius:12px;box-shadow:0 0 12px rgba(0,128,0,.25);
+          overflow:hidden;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;position:relative}
+    .card:hover{transform:scale(1.02);box-shadow:0 8px 18px rgba(0,0,0,.25)}
+    .card img{width:100%;height:180px;object-fit:cover;display:block}
+    .card-body{padding:15px}
+    .title{font-weight:bold;margin:0 0 10px;color:var(--rosso)}
+    .price{color:#28a745;font-weight:bold;margin:10px 0}
+    .card .actions{position:absolute;right:10px;bottom:10px}
+    .icon-btn{width:42px;height:42px;border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;background:#111;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+    .icon-btn img{width:22px;height:22px;display:block;filter:invert(1)}
+    /* Footer */
+    footer{margin-top:30px;padding:16px;text-align:center;color:#fff;background:var(--rosso);border-top:6px solid #004d00}
+    /* Modal */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000}
+    .modal.open{display:flex}
+    .modal-content{
+      background:url("images/sfondo-natale.jpg") center/cover no-repeat;
+      border-radius:10px;max-width:800px;width:100%;padding:20px;position:relative;
+      max-height:90vh;overflow:auto;box-shadow:0 10px 24px rgba(0,0,0,.35);color:#fff
+    }
+    .modal-content::before{content:"";position:absolute;inset:0;border-radius:10px;background:rgba(0,0,0,.40);z-index:0}
+    .modal-content>*{position:relative;z-index:1}
+    .modal-content img{width:100%;object-fit:contain;display:block;margin:0 auto 15px;background:#fff;border-radius:8px}
+    .close{position:absolute;top:10px;right:10px;border:none;background:#eee;border-radius:6px;padding:6px 10px;cursor:pointer}
+    .share-floating{position:absolute;bottom:12px;right:12px}
+    .toast{
+      position:fixed;left:50%;bottom:22px;transform:translateX(-50%);
+      background:#111;color:#fff;padding:10px 14px;border-radius:8px;box-shadow:0 6px 16px rgba(0,0,0,.35);
+      font-size:.95rem;opacity:0;pointer-events:none;transition:opacity .2s ease
+    }
+    .toast.show{opacity:1}
+    @media (max-width:640px){
+      header{padding:10px 12px 20px}
+      .contact,.search{position:static;margin:6px 0;text-align:center}
+      .search input{width:90%;max-width:320px}
+      header img{height:60px !important;margin:6px auto 8px !important}
+      .titoloNatale{font-size:1.3rem;line-height:1.2}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="contact"><a href="https://www.zanonseafish.it/contatti/" target="_blank" rel="noopener">✉️ Contattaci</a></div>
+    <div class="search"><input type="text" id="searchBox" placeholder="Cerca prodotti…"></div>
+
+    <img src="images/zanonlogonatale.png" alt="Zanon Seafish Ingros SRL"
+         style="height:80px;display:block;margin:0 auto 10px"
+         onerror="this.onerror=null;this.src='images/default.png';">
+
+    <h1 class="titoloNatale">
+      <span class="grad">Catalogo Prodotti</span><br>
+      🎄❄️ <span class="grad">OFFERTE NATALE 2025</span> 🎁🎄
+    </h1>
+    <div id="count" class="muted" style="margin-top:6px"></div>
+  </header>
+
+  <div class="container">
+    <div id="grid" class="grid"></div>
+  </div>
+
+  <footer>🎁❄️ Buone Feste da ZANON SEAFISH 🎄🎄</footer>
+
+  <!-- Modal -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <button id="closeBtn" class="close" aria-label="Chiudi">Chiudi</button>
+      <h2 id="mTitle"></h2>
+      <div id="mGallery"></div>
+      <p id="mDesc"></p>
+      <p id="mFullDesc"></p>
+      <p id="mPrice" class="price"></p>
+      <div class="share-floating">
+        <button id="shareBtn" class="icon-btn" title="Condividi" aria-label="Condividi">
+          <img src="images/share.png" alt="Condividi">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Copiato negli appunti ✅</div>
+
+  <script>
+  const PRODUCTS = [
+    {id:"acciughe-filetti-riunione",name:"Acciughe Filetti Riunione",price:6.20,
+     shortDesc:"Acciughe filetti Riunione, confezione",
+     fullDesc:"Filetti di acciughe Riunione selezionati e sott’olio. Ideali per antipasti, pizze e insalate.",
+     images:["images/acciughe-filetti-riunione.jpg"]},
+    {id:"acciughe-filetti",name:"Acciughe Filetti",price:5.90,
+     shortDesc:"Acciughe filetti, confezione",
+     fullDesc:"Filetti di acciughe lavorati a regola d’arte, gusto intenso e pulito.",
+     images:["images/acciughe-filetti.jpg"]},
+    {id:"alici-colatura",name:"Alici Colatura",price:8.00,
+     shortDesc:"Alici colatura, confezione",
+     fullDesc:"Condimento tradizionale a base di alici. Perfetto su spaghetti, verdure e crostini.",
+     images:["images/alici-colatura.jpg"]},
+    {id:"alici-filetti",name:"Alici Filetti",price:5.50,
+     shortDesc:"Alici filetti, confezione",
+     fullDesc:"Filetti di alici dal sapore equilibrato. Ottimi per ricette fredde e calde.",
+     images:["images/alici-filetti.jpg"]},
+    {id:"alici-filetto",name:"Alici Filetto",price:5.50,
+     shortDesc:"Alici filetto, confezione",
+     fullDesc:"Filetto singolo di alici, comodo per porzioni precise e guarnizioni.",
+     images:["images/alici-filetto.jpg"]},
+    {id:"alici-pezzi",name:"Alici Pezzi",price:6.00,
+     shortDesc:"Alici pezzi, confezione",
+     fullDesc:"Pezzi di alici pratici per insalate, paste e focacce.",
+     images:["images/alici-pezzi.jpg"]},
+    {id:"aringa-affumicata",name:"Aringa Affumicata",price:4.90,
+     shortDesc:"Aringa affumicata, confezione",
+     fullDesc:"Filetti di aringa affumicata a caldo. Aroma deciso, texture morbida.",
+     images:["images/aringa-affumicata.jpg"]},
+    {id:"baccala-condito-200",name:"Baccalà Condito 200g",price:7.90,
+     shortDesc:"Baccalà condito, confezione da 200 g",
+     fullDesc:"Baccalà già condito. Pronto all’uso per crostini o secondi rapidi.",
+     images:["images/baccala-condito-200.jpg"]},
+    {id:"baccala-mantecato-200",name:"Baccalà Mantecato 200g",price:9.20,
+     shortDesc:"Baccalà mantecato, confezione da 200 g",
+     fullDesc:"Classico mantecato veneto. Cremoso, ideale su polenta e tartine.",
+     images:["images/baccala-mantecato-200.jpg"]},
+    {id:"baccala-umido-150",name:"Baccalà Umido 150g",price:6.80,
+     shortDesc:"Baccalà in umido, confezione da 150 g",
+     fullDesc:"Preparazione in umido dal sapore ricco. Da scaldare e servire.",
+     images:["images/baccala-umido-150.jpg"]},
+    {id:"baccala-vicentina-1",name:"Baccalà alla Vicentina",price:10.90,
+     shortDesc:"Baccalà alla vicentina, confezione",
+     fullDesc:"Ricetta tradizionale alla vicentina. Cottura lenta e gusto autentico.",
+     images:["images/baccala-vicentina-1.jpg"]},
+    {id:"baccala-vicentina-200",name:"Baccalà alla Vicentina 200g",price:11.50,
+     shortDesc:"Baccalà alla vicentina, confezione da 200 g",
+     fullDesc:"Porzione da 200 g della nostra vicentina. Pronta da servire.",
+     images:["images/baccala-vicentina-200.jpg"]},
+    {id:"bottarga-muggine",name:"Bottarga di Muggine",price:19.90,
+     shortDesc:"Bottarga di muggine, confezione",
+     fullDesc:"Bottarga stagionata, ideale grattugiata su pasta e risotti.",
+     images:["images/bottarga-muggine.jpg"]},
+    {id:"bottarga-tonno",name:"Bottarga di Tonno",price:21.00,
+     shortDesc:"Bottarga di tonno, confezione",
+     fullDesc:"Bottarga di tonno dal sapore pieno. Per ricette gourmet.",
+     images:["images/bottarga-tonno.jpg"]},
+    {id:"caviale-iran-darya",name:"Caviale Iran Darya",price:120.00,
+     shortDesc:"Caviale Iran Darya, confezione",
+     fullDesc:"Selezione pregiata. Per degustazioni e abbinamenti raffinati.",
+     images:["images/caviale-iran-darya.jpg"]},
+    {id:"caviale-royalpop",name:"Caviale Royalpop",price:150.00,
+     shortDesc:"Caviale Royalpop, confezione",
+     fullDesc:"Perle di caviale selezionate. Profilo aromatico complesso.",
+     images:["images/caviale-royalpop.jpg"]},
+    {id:"dentice-crema-200",name:"Dentice Crema 200g",price:6.50,
+     shortDesc:"Dentice crema, confezione da 200 g",
+     fullDesc:"Crema spalmabile di dentice. Perfetta per antipasti veloci.",
+     images:["images/dentice-crema-200.jpg"]},
+    {id:"dentice-crema-500",name:"Dentice Crema 500g",price:11.00,
+     shortDesc:"Dentice crema, confezione da 500 g",
+     fullDesc:"Formato famiglia della crema di dentice. Rende fino a 10 tartine.",
+     images:["images/dentice-crema-500.jpg"]},
+    {id:"nero-seppia",name:"Nero di Seppia",price:4.50,
+     shortDesc:"Nero di seppia, confezione",
+     fullDesc:"Classico per risotti e paste al nero. Colore intenso, sapore di mare.",
+     images:["images/nero-seppia.jpg"]},
+    {id:"polpa-granchio",name:"Polpa di Granchio",price:8.90,
+     shortDesc:"Polpa di granchio, confezione",
+     fullDesc:"Polpa pronta per insalate di mare, paste fredde e sushi rolls.",
+     images:["images/polpa-granchio.jpg"]},
+    {id:"polpa-riccio-riunione",name:"Polpa di Riccio Riunione",price:9.50,
+     shortDesc:"Polpa di riccio Riunione, confezione",
+     fullDesc:"Gusto marino deciso. Ideale emulsionata con olio per condire pasta.",
+     images:["images/polpa-riccio-riunione.jpg"]},
+    {id:"polpa-riccio",name:"Polpa di Riccio",price:9.00,
+     shortDesc:"Polpa di riccio, confezione",
+     fullDesc:"Polpa pura per ricette mediterranee dal sapore intenso.",
+     images:["images/polpa-riccio.jpg"]},
+    {id:"salmone-intero-norv",name:"Salmone Intero Norvegese",price:25.00,
+     shortDesc:"Salmone intero norvegese, confezione",
+     fullDesc:"Salmone intero selezionato. Adatto a cotture al forno o affumicatura.",
+     images:["images/salmone-intero-norv.jpg"]},
+    {id:"salmone-preaff-norv",name:"Salmone Preaffettato Norvegese",price:18.00,
+     shortDesc:"Salmone preaffettato norvegese, confezione",
+     fullDesc:"Fette regolari pronte al servizio. Perfette per antipasti e bagel.",
+     images:["images/salmone-preaff-norv.jpg"]},
+    {id:"stoccafisso-salato",name:"Stoccafisso Salato",price:12.00,
+     shortDesc:"Stoccafisso salato tradizionale",
+     fullDesc:"Stoccafisso di qualità. Da ammollare e cucinare secondo ricetta.",
+     images:["images/stoccafisso-salato.jpg"]},
+    {id:"stoccafisso-secco",name:"Stoccafisso Secco",price:10.00,
+     shortDesc:"Stoccafisso essiccato",
+     fullDesc:"Essiccazione naturale. Base per piatti tipici del nord Europa.",
+     images:["images/stoccafisso-secco.jpg"]},
+    {id:"tonno-corallo",name:"Tonno Corallo",price:8.90,
+     shortDesc:"Tonno Corallo, confezione",
+     fullDesc:"Tranci in olio. Consistenza compatta, gusto pieno.",
+     images:["images/tonno-corallo.jpg"]},
+    {id:"tonno-filetti-acantilado",name:"Tonno Filetti Acantilado",price:9.50,
+     shortDesc:"Filetti di tonno Acantilado, confezione",
+     fullDesc:"Filetti selezionati. Buoni da soli o in insalate ricche.",
+     images:["images/tonno-filetti-acantilado.jpg"]},
+    {id:"tonno-filetti-albatros",name:"Tonno Filetti Albatros",price:9.90,
+     shortDesc:"Filetti di tonno Albatros, confezione",
+     fullDesc:"Filetti sodi e saporiti. Versatili per molte preparazioni.",
+     images:["images/tonno-filetto-albatros.jpg"]},
+    {id:"tonno-filone-albaladejo",name:"Tonno Filone Albaladejo",price:14.00,
+     shortDesc:"Tonno filone Albaladejo",
+     fullDesc:"Filone di tonno per taglio fresco o tranci. Alta resa.",
+     images:["images/tonno-filone-albaladejo.jpg"]},
+    {id:"tonno-filone-atm",name:"Tonno Filone ATM",price:15.00,
+     shortDesc:"Tonno filone ATM",
+     fullDesc:"Filone confezionato in ATM per migliore conservazione.",
+     images:["images/tonno-filone-atm.jpg"]},
+    {id:"uova-aringa",name:"Uova di Aringa",price:6.50,
+     shortDesc:"Uova di aringa, confezione",
+     fullDesc:"Per tartine e sushi. Grana fine, sapore affumicato leggero.",
+     images:["images/uova-aringa.jpg"]},
+    {id:"uova-lompo",name:"Uova di Lompo",price:5.90,
+     shortDesc:"Uova di lompo, confezione",
+     fullDesc:"Classiche per decorazioni e finger food. Colore brillante.",
+     images:["images/uova-lompo.jpg"]},
+    {id:"uova-salmone",name:"Uova di Salmone",price:7.90,
+     shortDesc:"Uova di salmone, confezione",
+     fullDesc:"Uova corpose dal gusto delicato. Perfette su blinis e avocado toast.",
+     images:["images/uova-salmone.jpg"]}
+  ];
+
+  const grid=document.getElementById("grid");
+  const count=document.getElementById("count");
+  const q=document.getElementById("searchBox");
+  const modal=document.getElementById("modal");
+  const mTitle=document.getElementById("mTitle");
+  const mDesc=document.getElementById("mDesc");
+  const mFullDesc=document.getElementById("mFullDesc");
+  const mPrice=document.getElementById("mPrice");
+  const mGallery=document.getElementById("mGallery");
+  const closeBtn=document.getElementById("closeBtn");
+  const shareBtn=document.getElementById("shareBtn");
+  const toast=document.getElementById("toast");
+
+  let currentId=null;
+
+  function showToast(msg){
+    toast.textContent=msg||"Copiato negli appunti ✅";
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"),1600);
+  }
+
+  function cardTemplate(p){
+    return `
+      <div class="card" onclick="openModal('${p.id}')">
+        <img src="${p.images[0]}" alt="${p.name}" onerror="this.onerror=null;this.src='images/default.png';">
+        <div class="card-body">
+          <div class="title">${p.name}</div>
+          <div>${p.shortDesc}</div>
+          <div class="price">€${p.price.toFixed(2)}</div>
+        </div>
+        <div class="actions" onclick="event.stopPropagation()">
+          <button class="icon-btn" title="Condividi" aria-label="Condividi" onclick="shareProduct('${p.id}')">
+            <img src="images/share.png" alt="Condividi">
+          </button>
+        </div>
+      </div>`;
+  }
+
+  function render(list=PRODUCTS){
+    grid.innerHTML=list.map(cardTemplate).join("");
+    count.textContent=list.length===PRODUCTS.length?`${list.length} prodotti`:`${list.length} risultati`;
+  }
+
+  function productUrl(id){
+    const base = location.origin + location.pathname;
+    return `${base}#${encodeURIComponent(id)}`;
+  }
+
+  async function shareProduct(id){
+    const p=PRODUCTS.find(x=>x.id===id); if(!p) return;
+    const imgUrl=new URL(p.images[0],location.href).href;
+    const text=`${p.name} – €${p.price.toFixed(2)}\n${p.shortDesc||""}\n${productUrl(p.id)}`;
+
+    try{
+      if(navigator.canShare && window.File && window.Blob){
+        const resp=await fetch(imgUrl,{mode:"cors"});
+        const blob=await resp.blob();
+        const file=new File([blob], `${p.id}.jpg`, {type: blob.type||"image/jpeg"});
+        const data={title:p.name,text,files:[file]};
+        if(navigator.canShare(data)){ await navigator.share(data); return; }
+      }
+      if(navigator.share){ await navigator.share({title:p.name,text,url:imgUrl}); return; }
+      // no external windows: copy to clipboard as fallback
+      await navigator.clipboard.writeText(`${text}\n${imgUrl}`);
+      showToast("Testo copiato: incolla in WhatsApp");
+    }catch(e){
+      try{
+        await navigator.clipboard.writeText(`${text}\n${imgUrl}`);
+        showToast("Testo copiato: incolla in WhatsApp");
+      }catch(_){
+        showToast("Impossibile condividere automaticamente");
+      }
+    }
+  }
+
+  function openModal(id){
+    const p=PRODUCTS.find(x=>x.id===id); if(!p) return;
+    currentId=id;
+    mTitle.textContent=p.name;
+    mDesc.textContent=p.shortDesc||"";
+    mFullDesc.textContent=p.fullDesc||"";
+    mPrice.textContent="€"+p.price.toFixed(2);
+    mGallery.innerHTML=(p.images||[]).map(src=>
+      `<img src="${src}" alt="${p.name}" onerror="this.onerror=null;this.src='images/default.png';">`
+    ).join("");
+    modal.classList.add("open");
+    if (location.hash !== "#"+id) history.pushState({modal:true,id},"","#"+id);
+  }
+
+  function closeModal(){
+    if(!modal.classList.contains("open")) return;
+    modal.classList.remove("open");
+    currentId=null;
+    if(location.hash) history.pushState("", document.title, location.pathname + location.search);
+  }
+
+  closeBtn.onclick=closeModal;
+  shareBtn.onclick=()=>{ if(currentId) shareProduct(currentId); };
+  modal.addEventListener("click",e=>{ if(e.target===modal) closeModal(); });
+  window.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
+  window.addEventListener("popstate",()=>{
+    if(location.hash){
+      const id=decodeURIComponent(location.hash.slice(1));
+      if(!modal.classList.contains("open")) openModal(id);
+    }else{
+      if(modal.classList.contains("open")) modal.classList.remove("open");
+    }
+  });
+
+  q.addEventListener("input",()=>{
+    const term=q.value.trim().toLowerCase();
+    if(!term){render(PRODUCTS);return;}
+    const res=PRODUCTS.filter(p=>{
+      const hay=[p.name||"",p.shortDesc||"",p.fullDesc||"",...(p.images||[]).map(x=>x.split('/').pop()||"")].join(" ").toLowerCase();
+      return hay.includes(term);
+    });
+    render(res);
+  });
+
+  render();
+  // deep-link
+  if(location.hash){
+    const id=decodeURIComponent(location.hash.slice(1));
+    if(PRODUCTS.some(p=>p.id===id)) openModal(id);
+  }
+  </script>
+</body>
+</html>
