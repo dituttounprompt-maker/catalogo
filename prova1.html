@@ -6,170 +6,74 @@
   <title>Catalogo Prodotti ZANON SEAFISH – Natale 2025 · Stile Rustico</title>
   <style>
     :root{
-      --rosso:#8b1a1a;
-      --verde:#255c2c;
-      --oro:#c8a75d;
-      --carta:#f6f1e5;
-      --inchiostro:#3a2f1f;
-      --accent:#2aa46d;
+      --rosso:#8b1a1a; --verde:#255c2c; --oro:#c8a75d; --carta:#f6f1e5;
+      --inchiostro:#3a2f1f; --accent:#2aa46d;
     }
-
-    /* Sfondo legno */
-    body{
-      margin:0; padding:0;
-      font-family: Georgia, "Times New Roman", serif;
-      color:var(--inchiostro);
-      background: url("images/sfondo-legno.jpg") center/cover fixed no-repeat, #5a3d2b;
-      background-blend-mode: multiply;
-    }
-
-    /* Testata stile carta su legno con ghirlanda */
-    header{
-      position:relative;
-      text-align:center;
-      padding:18px 15px 28px;
-      background: url("images/carta-parchment.jpg") center/cover no-repeat, var(--carta);
+    body{ margin:0; padding:0; font-family:Georgia,"Times New Roman",serif; color:var(--inchiostro);
+      background:url("images/sfondo-legno.jpg") center/cover fixed no-repeat,#5a3d2b; background-blend-mode:multiply; }
+    header{ position:relative; text-align:center; padding:18px 15px 28px;
+      background:url("images/carta-parchment.jpg") center/cover no-repeat, var(--carta);
       max-width:1200px; margin:18px auto 12px; border-radius:14px;
-      box-shadow: 0 10px 24px rgba(0,0,0,.35);
-      border: 1px solid rgba(0,0,0,.15);
-    }
-    /* “ghirlanda” superiore */
-    header::before{
-      content:"";
-      position:absolute; left:0; right:0; top:-14px; height:28px;
+      box-shadow:0 10px 24px rgba(0,0,0,.35); border:1px solid rgba(0,0,0,.15); }
+    header::before{ content:""; position:absolute; left:0; right:0; top:-14px; height:28px;
       background:
-        radial-gradient(circle at 15px 14px, #1f4a25 12px, transparent 13px),
-        radial-gradient(circle at 55px 14px, #2d6a35 12px, transparent 13px),
-        radial-gradient(circle at 95px 14px, #1f4a25 12px, transparent 13px);
-      background-size: 110px 28px;
-      background-repeat: repeat-x;
-      filter: drop-shadow(0 3px 2px rgba(0,0,0,.35));
-    }
-    /* nastro decorativo basso */
-    header::after{
-      content:"";
-      position:absolute; left:18px; right:18px; bottom:-6px; height:6px;
-      background: repeating-linear-gradient(90deg, var(--rosso) 0 16px, var(--oro) 16px 24px, var(--verde) 24px 40px);
-      border-radius: 0 0 10px 10px;
-      filter: drop-shadow(0 3px 2px rgba(0,0,0,.35));
-    }
-
-    /* Logo */
-    header img.logo{
-      height:78px; display:block; margin:0 auto 8px;
-    }
-
-    /* Pulsanti laterali */
-    .bar-left, .bar-right{
-      position:absolute; top:12px;
-    }
-    .bar-left{ left:12px; }
-    .bar-right{ right:12px; }
-    .btn{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 14px; border-radius:999px; text-decoration:none;
-      font-weight:700; letter-spacing:.2px;
-      background: linear-gradient(180deg, var(--verde), #184822);
-      color:#fff; border:1px solid rgba(0,0,0,.25);
-      box-shadow:0 3px 10px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.15);
-    }
+        radial-gradient(circle at 15px 14px,#1f4a25 12px,transparent 13px),
+        radial-gradient(circle at 55px 14px,#2d6a35 12px,transparent 13px),
+        radial-gradient(circle at 95px 14px,#1f4a25 12px,transparent 13px);
+      background-size:110px 28px; background-repeat:repeat-x; filter:drop-shadow(0 3px 2px rgba(0,0,0,.35)); }
+    header::after{ content:""; position:absolute; left:18px; right:18px; bottom:-6px; height:6px;
+      background:repeating-linear-gradient(90deg,var(--rosso) 0 16px,var(--oro) 16px 24px,var(--verde) 24px 40px);
+      border-radius:0 0 10px 10px; filter:drop-shadow(0 3px 2px rgba(0,0,0,.35)); }
+    header img.logo{ height:78px; display:block; margin:0 auto 8px; }
+    .bar-left,.bar-right{ position:absolute; top:12px; }
+    .bar-left{ left:12px; } .bar-right{ right:12px; }
+    .btn{ display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:999px; text-decoration:none;
+      font-weight:700; letter-spacing:.2px; background:linear-gradient(180deg,var(--verde),#184822);
+      color:#fff; border:1px solid rgba(0,0,0,.25); box-shadow:0 3px 10px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.15); }
     .btn:hover{ filter:brightness(1.06) }
-    .search input{
-      width:210px; max-width:38vw; padding:8px 12px;
-      border-radius:999px; border:1px solid rgba(0,0,0,.25); outline:none;
-      background:#fff; font-family:inherit;
-    }
-
-    /* Titolo “calligrafico” semplice con decoro oro */
-    h1{
-      margin:6px 0 2px; line-height:1.18; font-weight:800;
-      color:var(--rosso);
-      text-shadow: 0 1px 0 #fff, 0 2px 4px rgba(0,0,0,.15);
-    }
-    .titolo .line{
-      display:inline-block;
-      background:linear-gradient(90deg, var(--rosso), var(--oro), var(--rosso));
-      -webkit-background-clip:text; background-clip:text; color:transparent;
-      background-size:200% 100%;
-      animation: fascia 3s ease-in-out infinite;
-    }
-    @keyframes fascia{
-      0%{background-position:0% 50%}
-      50%{background-position:100% 50%}
-      100%{background-position:0% 50%}
-    }
-    .muted{color:#5e4a33}
-
-    /* Contenitore */
-    .container{max-width:1200px; margin:0 auto 26px; padding:0 15px}
-    .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px}
-
-    /* Card “carta” con bordo cucitura */
-    .card{
-      background: var(--carta);
-      border-radius:12px;
-      border:1px solid rgba(0,0,0,.18);
-      box-shadow: 0 8px 18px rgba(0,0,0,.28);
-      overflow:hidden; cursor:pointer;
-      transition: transform .15s ease, box-shadow .15s ease;
-      position:relative;
-    }
-    .card::after{ /* cucitura */
-      content:""; position:absolute; inset:8px;
-      border: 2px dashed rgba(58,47,31,.35); border-radius:8px; pointer-events:none;
-    }
-    .card:hover{ transform: translateY(-2px); box-shadow:0 12px 22px rgba(0,0,0,.34) }
+    .search input{ width:210px; max-width:38vw; padding:8px 12px; border-radius:999px; border:1px solid rgba(0,0,0,.25); background:#fff; }
+    h1{ margin:6px 0 2px; line-height:1.18; font-weight:800; color:var(--rosso); text-shadow:0 1px 0 #fff,0 2px 4px rgba(0,0,0,.15); }
+    .titolo .line{ display:inline-block; background:linear-gradient(90deg,var(--rosso),var(--oro),var(--rosso));
+      -webkit-background-clip:text; background-clip:text; color:transparent; background-size:200% 100%;
+      animation:fascia 3s ease-in-out infinite; }
+    @keyframes fascia{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    .muted{ color:#5e4a33 }
+    .container{ max-width:1200px; margin:0 auto 26px; padding:0 15px }
+    .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px }
+    .card{ background:var(--carta); border-radius:12px; border:1px solid rgba(0,0,0,.18);
+      box-shadow:0 8px 18px rgba(0,0,0,.28); overflow:hidden; cursor:pointer; transition:transform .15s, box-shadow .15s; position:relative; }
+    .card::after{ content:""; position:absolute; inset:8px; border:2px dashed rgba(58,47,31,.35); border-radius:8px; pointer-events:none; }
+    .card:hover{ transform:translateY(-2px); box-shadow:0 12px 22px rgba(0,0,0,.34) }
     .card img{ width:100%; height:190px; object-fit:cover; display:block }
-    .card-body{ padding:14px 14px 16px }
-    .title{ font-weight:800; color:var(--verde); margin:0 0 8px }
+    .card-body{ padding:12px 12px 48px } /* spazio per i bottoni */
+    .title{ font-weight:800; color:var(--verde); margin:0 0 6px }
     .desc{ margin:0 0 8px }
     .price{ color:var(--accent); font-weight:800 }
-
-    /* Footer “nastro regalo” */
-    footer{
-      max-width:1200px; margin:0 auto 22px; padding:12px 14px; text-align:center;
-      color:#fff; background: linear-gradient(90deg, var(--rosso), #6a1a1a);
-      border-radius:10px; border:1px solid rgba(0,0,0,.25);
-      box-shadow:0 10px 24px rgba(0,0,0,.35);
-    }
-
-    /* Modal su sfondo rustico */
-    .modal{
-      position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:24px;
-      background:rgba(0,0,0,.65); z-index:1000;
-    }
+    .actions{ position:absolute; right:10px; bottom:10px; display:flex; gap:8px; }
+    .btn-sm{ padding:6px 10px; border-radius:999px; border:1px solid rgba(0,0,0,.2); background:#fff; font-weight:700; cursor:pointer; }
+    .btn-sm:hover{ filter:brightness(0.96) }
+    footer{ max-width:1200px; margin:0 auto 22px; padding:12px 14px; text-align:center; color:#fff;
+      background:linear-gradient(90deg,var(--rosso),#6a1a1a); border-radius:10px; border:1px solid rgba(0,0,0,.25);
+      box-shadow:0 10px 24px rgba(0,0,0,.35); }
+    .modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:24px; background:rgba(0,0,0,.65); z-index:1000; }
     .modal.open{ display:flex }
-    .modal-content{
-      background: url("images/sfondo-natale-rustico.jpg") center/cover no-repeat, #2a2319;
-      color:#fff; position:relative; width:100%; max-width:860px;
-      border-radius:14px; padding:20px; max-height:90vh; overflow:auto;
-      box-shadow:0 12px 28px rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.15);
-    }
-    .modal-content::before{ /* velatura per leggibilità */
-      content:""; position:absolute; inset:0; border-radius:14px; background:rgba(0,0,0,.35); z-index:0;
-    }
-    .modal-content > *{ position:relative; z-index:1 }
+    .modal-content{ background:url("images/sfondo-natale-rustico.jpg") center/cover no-repeat, #2a2319; color:#fff; position:relative;
+      width:100%; max-width:860px; border-radius:14px; padding:20px; max-height:90vh; overflow:auto;
+      box-shadow:0 12px 28px rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.15); }
+    .modal-content::before{ content:""; position:absolute; inset:0; border-radius:14px; background:rgba(0,0,0,.35); z-index:0; }
+    .modal-content>*{ position:relative; z-index:1 }
     .modal h2{ margin:0 0 8px; font-weight:800; letter-spacing:.2px }
     .modal .price{ color:#c9efc9 }
-    .modal img{
-      width:100%; display:block; object-fit:contain; margin:0 auto 14px;
-      background:#fff; border-radius:10px; border:4px solid #fff;
-      box-shadow:0 6px 18px rgba(0,0,0,.45);
-    }
-    .close{
-      position:absolute; top:10px; right:10px; cursor:pointer;
-      border:none; border-radius:999px; background:#fff; color:#222;
-      padding:8px 12px; font-weight:800; box-shadow:0 4px 10px rgba(0,0,0,.35);
-    }
-
-    /* Mobile: niente sovrapposizioni */
-    @media (max-width: 640px){
+    .modal img{ width:100%; display:block; object-fit:contain; margin:0 auto 14px; background:#fff; border-radius:10px; border:4px solid #fff; box-shadow:0 6px 18px rgba(0,0,0,.45); }
+    .close{ position:absolute; top:10px; right:10px; cursor:pointer; border:none; border-radius:999px; background:#fff; color:#222; padding:8px 12px; font-weight:800; box-shadow:0 4px 10px rgba(0,0,0,.35); }
+    .share-modal{ position:absolute; top:10px; left:10px; padding:8px 12px; border-radius:999px; border:none; background:#fff; font-weight:800; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,.35); }
+    @media (max-width:640px){
       header{ padding:14px 12px 20px; margin:14px 10px }
-      .bar-left, .bar-right{ position:static; margin:6px 0; text-align:center }
+      .bar-left,.bar-right{ position:static; margin:6px 0; text-align:center }
       .search input{ width:92%; max-width:330px }
       header img.logo{ height:64px }
       h1{ font-size:1.28rem }
-      .grid{ grid-template-columns: repeat(auto-fill, minmax(220px,1fr)) }
+      .grid{ grid-template-columns:repeat(auto-fill,minmax(220px,1fr)) }
     }
   </style>
 </head>
@@ -189,7 +93,7 @@
       <span class="line">Catalogo Prodotti</span><br>
       🎄 <span class="line">Offerte Natale 2025</span> 🎁
     </h1>
-    <div id="count" class="muted"> </div>
+    <div id="count" class="muted"></div>
   </header>
 
   <div class="container">
@@ -202,6 +106,7 @@
   <div id="modal" class="modal" role="dialog" aria-modal="true">
     <div class="modal-content">
       <button id="closeBtn" class="close" aria-label="Chiudi">Chiudi</button>
+      <button id="shareBtn" class="share-modal" aria-label="Condividi">Condividi</button>
       <h2 id="mTitle"></h2>
       <div id="mGallery"></div>
       <p id="mDesc"></p>
@@ -360,16 +265,19 @@
      images:["images/uova-salmone.jpg"]}
   ];
 
-  const grid=document.getElementById("grid");
-  const count=document.getElementById("count");
-  const q=document.getElementById("searchBox");
-  const modal=document.getElementById("modal");
-  const mTitle=document.getElementById("mTitle");
-  const mDesc=document.getElementById("mDesc");
-  const mFullDesc=document.getElementById("mFullDesc");
-  const mPrice=document.getElementById("mPrice");
-  const mGallery=document.getElementById("mGallery");
-  const closeBtn=document.getElementById("closeBtn");
+  const grid = document.getElementById("grid");
+  const count = document.getElementById("count");
+  const q = document.getElementById("searchBox");
+  const modal = document.getElementById("modal");
+  const mTitle = document.getElementById("mTitle");
+  const mDesc = document.getElementById("mDesc");
+  const mFullDesc = document.getElementById("mFullDesc");
+  const mPrice = document.getElementById("mPrice");
+  const mGallery = document.getElementById("mGallery");
+  const closeBtn = document.getElementById("closeBtn");
+  const shareBtn = document.getElementById("shareBtn");
+
+  let currentId = null;
 
   function cardTemplate(p){
     return `
@@ -380,35 +288,82 @@
           <p class="desc">${p.shortDesc||""}</p>
           <div class="price">€${p.price.toFixed(2)}</div>
         </div>
+        <div class="actions" onclick="event.stopPropagation()">
+          <button class="btn-sm" onclick="shareProduct('${p.id}')">Condividi</button>
+        </div>
       </div>`;
   }
 
   function render(list=PRODUCTS){
-    grid.innerHTML=list.map(cardTemplate).join("");
+    grid.innerHTML = list.map(cardTemplate).join("");
     count.textContent = list.length===PRODUCTS.length ? `${list.length} prodotti` : `${list.length} risultati`;
   }
 
+  function productUrl(id){
+    const base = location.origin + location.pathname;
+    return `${base}#${encodeURIComponent(id)}`;
+  }
+
+  async function shareProduct(id){
+    const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
+    const imgUrl = new URL(p.images[0], location.href).href;
+    const text = `${p.name} – €${p.price.toFixed(2)}\n${p.shortDesc||""}\n${productUrl(p.id)}`;
+
+    // Web Share API con file, se supportato
+    try{
+      if (navigator.canShare && window.File && window.Blob) {
+        const resp = await fetch(imgUrl, {mode:"cors"});
+        const blob = await resp.blob();
+        const file = new File([blob], p.id + ".jpg", {type: blob.type || "image/jpeg"});
+        const data = { title: p.name, text, files: [file] };
+        if (navigator.canShare(data)) {
+          await navigator.share(data);
+          return;
+        }
+      }
+      if (navigator.share) {
+        await navigator.share({ title: p.name, text, url: imgUrl }); // URL immagine per preview
+        return;
+      }
+    }catch(e){ /* fallback sotto */ }
+
+    // Fallback WhatsApp: prima l’URL immagine per anteprima, poi descrizione e link scheda
+    const waMsg = `${imgUrl}\n${p.name} – €${p.price.toFixed(2)}\n${p.shortDesc||""}\n${productUrl(p.id)}`;
+    const waUrl = `https://wa.me/?text=${encodeURIComponent(waMsg)}`;
+    window.open(waUrl, "_blank");
+  }
+
   function openModal(id){
-    const p=PRODUCTS.find(x=>x.id===id); if(!p) return;
-    mTitle.textContent=p.name;
-    mDesc.textContent=p.shortDesc||"";
-    mFullDesc.textContent=p.fullDesc||"";
-    mPrice.textContent="€"+p.price.toFixed(2);
-    mGallery.innerHTML=(p.images||[]).map(src=>`<img src="${src}" alt="${p.name}" onerror="this.onerror=null;this.src='images/default.png';">`).join("");
+    const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
+    currentId = id;
+    mTitle.textContent = p.name;
+    mDesc.textContent = p.shortDesc||"";
+    mFullDesc.textContent = p.fullDesc||"";
+    mPrice.textContent = "€"+p.price.toFixed(2);
+    mGallery.innerHTML = (p.images||[]).map(src=>`<img src="${src}" alt="${p.name}" onerror="this.onerror=null;this.src='images/default.png';">`).join("");
     modal.classList.add("open");
-    history.pushState({modal:true},"");
+    if (location.hash !== "#"+id) history.pushState({modal:true,id}, "", "#"+id);
   }
 
   function closeModal(){
     if(!modal.classList.contains("open")) return;
     modal.classList.remove("open");
-    if(history.state && history.state.modal){ history.back(); }
+    currentId = null;
+    if (location.hash) history.pushState("", document.title, location.pathname + location.search);
   }
 
-  closeBtn.onclick=closeModal;
+  closeBtn.onclick = closeModal;
+  shareBtn.onclick = ()=>{ if(currentId) shareProduct(currentId); };
   modal.addEventListener("click",e=>{ if(e.target===modal) closeModal(); });
   window.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
-  window.addEventListener("popstate",()=>{ if(modal.classList.contains("open")) modal.classList.remove("open"); });
+  window.addEventListener("popstate",()=>{
+    if(location.hash){
+      const id = decodeURIComponent(location.hash.slice(1));
+      if(!modal.classList.contains("open")) openModal(id);
+    }else{
+      if(modal.classList.contains("open")) modal.classList.remove("open");
+    }
+  });
 
   q.addEventListener("input",()=>{
     const term=q.value.trim().toLowerCase();
@@ -421,6 +376,11 @@
   });
 
   render();
+  // Apri modale se arrivo da link #id
+  if(location.hash){
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (PRODUCTS.some(p=>p.id===id)) openModal(id);
+  }
   </script>
 </body>
 </html>
