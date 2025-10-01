@@ -92,6 +92,11 @@
       .foot-mail{color:#000;text-decoration:underline}
     }
       .search input::placeholder{color:rgba(11,85,0,.7)}
+
+    /* Modal gallery layout */
+    #mGallery{display:grid;gap:12px;}
+    #mGallery:has(img:nth-child(2)){grid-template-columns:1fr 1fr;}
+
   </style>
 </head>
 <body>
@@ -113,7 +118,7 @@
 
   <!-- Modal -->
   <div id="modal" class="modal" role="dialog" aria-modal="true">
-    <div class="modal-content">
+    <div class="modal-content" aria-labelledby="mTitle">
       <h2 id="mTitle" class="m-title"></h2>
       <div id="mGallery"></div>
       <p id="mDesc" class="desc"></p>
@@ -166,7 +171,7 @@
     {id:"baccala-condito-200",name:"Baccalà Condito 200g",price:6.50,shortDesc:"Baccalà condito, confezione da 200 g",fullDesc:"Baccalà già condito. Pronto all’uso per crostini o secondi rapidi.",images:["images/baccala-condito-200.jpg"]},
     {id:"baccala-umido-150",name:"Baccalà Umido 150g",price:5.50,shortDesc:"Baccalà in umido, confezione da 150 g",fullDesc:"Preparazione in umido dal sapore ricco. Da scaldare e servire.",images:["images/baccala-umido-150.jpg"]},
    
-    {id:"sgombro-filetto",name:"Filetto di sgombro affumicato, confezione da 200 gr",price:5.40,shortDesc:"Filetto di sgombro",images:[""]},
+    {id:"sgombro-filetto",name:"Filetto di sgombro affumicato, confezione da 200 gr",price:5.40,shortDesc:"Filetto di sgombro",images:["images/default.png"]},
     {id:"baccala-vicentina-1",name:"Baccalà alla Vicentina",price:25.50,shortDesc:"Baccalà alla vicentina, confezione da 1 kilo",fullDesc:"Ricetta tradizionale alla vicentina. Cottura lenta e gusto autentico.",images:["images/baccala-vicentina-1.jpg"]},
 
     {id:"baccala-vicentina-200",name:"Baccalà alla Vicentina 200g",price:6.50,shortDesc:"Baccalà alla vicentina, confezione da 200 g",fullDesc:"Porzione da 200 g della nostra vicentina. Pronta da servire.",images:["images/baccala-vicentina-200.jpg"]},
@@ -175,8 +180,8 @@
     {id:"sarde-saor",name:"Sarde in saor",price:11.00,shortDesc:"Sarde in saor, confezione da 800 gr",fullDesc:"Sarde in saor, ricetta tipica veneziana.",images:["images/sarde-saor.jpg"]},    
     {id:"bottarga-muggine",name:"Bottarga di Muggine",price:72.00,shortDesc:"Bottarga di muggine affumicata confezione da 50/70gr",fullDesc:"Bottarga stagionata, ideale grattugiata su pasta e risotti.",images:["images/bottarga-muggine.jpg"]},
     {id:"bottarga-tonno",name:"Bottarga di Tonno",price:79.00,shortDesc:"Bottarga di tonno affumicata confezione da 50/100 gr",fullDesc:"Bottarga di tonno dal sapore pieno. Per ricette gourmet.",images:["images/bottarga-tonno.jpg"]},
-    {id:"Caviale Classic Select",name:"Caviale Classic Select",price:98.00,shortDesc:"Caviale Iran Darya, Acipenser Baerii confezione da 100gr",fullDesc:"Selezione pregiata. Per degustazioni e abbinamenti raffinati.",images:["images/caviale-iran-darya.jpg"]},
-    {id:"Caviale Royalpop",name:"Caviale Royalpop",price:11.50,shortDesc:"Acipenser Trasmontanus, confezione da 10 gr",fullDesc:"Perle di caviale selezionate. Profilo aromatico complesso.",images:["images/caviale-royalpop.jpg"]},
+    {id:"caviale-classic-select",name:"Caviale Classic Select",price:98.00,shortDesc:"Caviale Iran Darya, Acipenser Baerii confezione da 100gr",fullDesc:"Selezione pregiata. Per degustazioni e abbinamenti raffinati.",images:["images/caviale-iran-darya.jpg"]},
+    {id:"caviale-royalpop",name:"Caviale Royalpop",price:11.50,shortDesc:"Acipenser Trasmontanus, confezione da 10 gr",fullDesc:"Perle di caviale selezionate. Profilo aromatico complesso.",images:["images/caviale-royalpop.jpg"]},
     {id:"dentice-crema-200",name:"Dentice Crema 200g",price:7.50,shortDesc:"Dentice crema, confezione da 200 g",fullDesc:"Crema spalmabile di dentice. Perfetta per antipasti veloci.",images:["images/dentice-crema-200.jpg"]},
     {id:"dentice-crema-500",name:"Dentice Crema 500g",price:15.80,shortDesc:"Dentice crema, confezione da 500 g",fullDesc:"Formato famiglia della crema di dentice. Rende fino a 10 tartine.",images:["images/dentice-crema-500.jpg"]},
     {id:"nero-seppia",name:"Nero di Seppia",price:11.20,shortDesc:"Nero di seppia, confezione da 500gr",fullDesc:"Classico per risotti e paste al nero. Colore intenso, sapore di mare.",images:["images/nero-seppia.jpg"]},
@@ -198,6 +203,7 @@
   ];
 
   const listEl=document.getElementById("list");
+  const fmt=new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR"});
   const countEl=document.getElementById("count");
   const q=document.getElementById("searchBox");
   const modal=document.getElementById("modal");
@@ -213,18 +219,18 @@
   function rowTemplate(p){
     return `
     <div class="item" onclick="openModal('${p.id}')">
-      <div class="thumb"><img src="${p.images[0]}" alt="${p.name}" onerror="this.onerror=null;this.src='images/default.png';"></div>
+      <div class="thumb"><img loading="lazy" src="${p.images[0] || 'images/default.png'}" alt="${p.name}" onerror="this.onerror=null;this.src='images/default.png';"></div>
       <div class="info">
         <h3 class="title">${p.name}</h3>
         <p class="desc">${p.shortDesc||""}</p>
         <div class="divider"></div>
       </div>
-      <div class="price">€${p.price.toFixed(2)}</div>
+      <div class="price">${fmt.format(p.price)}</div>
     </div>`;
   }
 
   function render(list=PRODUCTS){
-    listEl.innerHTML=list.map(rowTemplate).join("");
+    listEl.innerHTML = list.length ? list.map(rowTemplate).join("") : '<div class="item">Nessun risultato</div>';
     countEl.textContent=list.length===PRODUCTS.length?`${list.length} prodotti`:`${list.length} risultati`;
   }
 
@@ -236,7 +242,7 @@
   async function shareProduct(id){
     const p=PRODUCTS.find(x=>x.id===id); if(!p) return;
     const imgUrl=new URL(p.images[0], location.href).href;
-    const text=`${p.name} – €${p.price.toFixed(2)}\n${p.shortDesc||""}\n${productAnchorUrl(p.id)}`;
+    const text=`${p.name} – ${fmt.format(p.price)}\n${p.shortDesc||""}\n${productAnchorUrl(p.id)}`;
     try{
       if(navigator.canShare && window.File && window.Blob){
         const resp=await fetch(imgUrl,{mode:"cors"});
@@ -245,7 +251,7 @@
         const data={title:p.name,text,files:[file]};
         if(navigator.canShare(data)){ await navigator.share(data); return; }
       }
-      if(navigator.share){ await navigator.share({title:p.name,text:`${p.name} – €${p.price.toFixed(2)}\n${p.shortDesc||""}`,url:imgUrl}); return; }
+      if(navigator.share){ await navigator.share({title:p.name,text:`${p.name} – ${fmt.format(p.price)}\n${p.shortDesc||""}`,url:imgUrl}); return; }
     }catch(e){}
     try{ await navigator.clipboard.writeText(productAnchorUrl(p.id)); }catch(e){}
   }
@@ -256,17 +262,17 @@
     mTitle.textContent=p.name;
     mDesc.textContent=p.shortDesc||"";
     mFullDesc.textContent=p.fullDesc||"";
-    mPrice.textContent="€"+p.price.toFixed(2);
+    mPrice.textContent=fmt.format(p.price);
     const imgs=(p.images||[]).slice(0,2);
-    mGallery.innerHTML=imgs.map(src=>`<img src="${src}" alt="${p.name}" onerror="this.onerror=null;this.src='images/default.png';">`).join("");
+    mGallery.innerHTML=imgs.map(src=>`<img loading="lazy" src="${src||'images/default.png'}" alt="${p.name}" onerror="this.onerror=null;this.src='images/default.png';">`).join("");
     shareBtn.onclick=()=>shareProduct(currentId);
-    modal.classList.add("open");
+    modal.classList.add("open"); document.body.style.overflow="hidden"; closeBtn.focus();
     if(location.hash!=="#"+id) history.pushState({modal:true,id},"","#"+id);
   }
 
   function closeModal(){
     if(!modal.classList.contains("open")) return;
-    modal.classList.remove("open");
+    modal.classList.remove("open"); document.body.style.overflow="";
     currentId=null;
     if(location.hash) history.pushState("",document.title,location.pathname+location.search);
   }
@@ -279,7 +285,7 @@
       const id=decodeURIComponent(location.hash.slice(1));
       if(!modal.classList.contains("open")) openModal(id);
     }else{
-      if(modal.classList.contains("open")) modal.classList.remove("open");
+      if(modal.classList.contains("open")) modal.classList.remove("open"); document.body.style.overflow="";
     }
   });
 
