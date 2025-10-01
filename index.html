@@ -295,7 +295,18 @@ PRODUCTS.sort((a,b)=>a.id.localeCompare(b.id));
     render(res);
   });
 
-  render();
+/* Immagini dentro la finestra modal */
+.modal-content img {
+  max-width: 100%;
+  max-height: 80vh; /* mai più alta dell’80% dello schermo */
+  height: auto;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+    
+    render();
   if(location.hash){
     const id=decodeURIComponent(location.hash.slice(1));
     if(PRODUCTS.some(p=>p.id===id)) openModal(id);
