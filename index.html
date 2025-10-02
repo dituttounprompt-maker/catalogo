@@ -116,7 +116,7 @@
     <div class="top">
       <img class="logo" src="images/logo.png" alt="Zanon Seafish Ingros SRL" onerror="this.onerror=null;this.src='images/default1.jpg';">
       <h1>Catalogo Prodotti ZANON SEAFISH</h1>
-      <div class="sub">Listato aggiornato. Clicca un elemento per i dettagli e la condivisione.</div>
+      <div class="sub">Clicca un elemento per i dettagli e la condivisione.</div>
       <div class="tools">
         <div class="search"><input id="searchBox" placeholder="Cerca prodotti…"></div>
       </div>
@@ -229,7 +229,7 @@ PRODUCTS.sort((a,b)=>a.id.localeCompare(b.id));
   function rowTemplate(p){
     return `
     <div class="item" onclick="openModal('${p.id}')">
-      <div class="thumb"><img loading="lazy" src="${p.images[0] || 'images/default.png'}" alt="${p.name}" onerror="this.onerror=null;this.src='images/default.png';"></div>
+      <div class="thumb"><img loading="lazy" src="${p.images[0] || 'images/default1.jpg'}" alt="${p.name}" onerror="this.onerror=null;this.src='images/default1.jpg';"></div>
       <div class="info">
         <h3 class="title">${p.name}</h3>
         <p class="desc">${p.shortDesc||""}</p>
