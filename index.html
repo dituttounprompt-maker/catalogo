@@ -88,7 +88,7 @@
     .foot-mail{font-size:12px;color:#0b5;text-decoration:none}
 
     /* Print-only footer (senza numeri pagina) */
-    .print-footer{display:none}
+    
 
     /* Responsive */
     @media (max-width:820px){
@@ -120,18 +120,7 @@
       .foot-mail{color:#000;text-decoration:underline}
 
       /* Piè di pagina fisso su ogni pagina, senza numerazione */
-      .print-footer{
-        display:block;
-        position:fixed;
-        bottom:8mm;
-        left:0;
-        right:0;
-        width:100%;
-        text-align:center;
-        font-size:10px;
-        color:#000;
-        opacity:.95;
-      }
+      
       .print-footer .line{
         display:inline-flex;
         align-items:center;
@@ -146,7 +135,42 @@
     }
 
     .search input::placeholder{color:rgba(11,85,0,.7)}
-  </style>
+  
+/* Nascondi sempre il piè pagina a video */
+.print-footer {
+  display: none !important;
+}
+
+/* Mostra e posiziona solo in stampa */
+@media print {
+  .print-footer {
+    display: block !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 10px;
+    color: #000;
+    opacity: .95;
+  }
+  .print-footer .line {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .print-footer img {
+    height: 12px;
+    width: auto;
+    vertical-align: middle;
+  }
+  .print-footer .text {
+    font-weight: 600;
+  }
+}
+
+</style>
 </head>
 <body>
   <header>
