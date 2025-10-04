@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ristoranti → Stampa per foglio</title>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.20.0/dist/xlsx.full.min.js"></script>
+<style>
+  :root { --fg:#111; --bg:#f6f7fb; --card:#fff; --accent:#0a7; --muted:#6b7280; }
+  *{box-sizing:border-box}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;margin:0;background:var(--bg);color:var(--fg)}
+  header{position:sticky;top:0;background:var(--card);border-bottom:1px solid #e5e7eb;z-index:10}
+  .wrap{max-width:980px;margin:0 auto;padding:16px}
+  h1{font-size:18px;margin:0 0 8px 0}
+  .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  input[type=file]{padding:8px 10px;font-size:14px;background:#fff;border:1px solid #d1d5db}
+  select,button{padding:8px 10px;font-size:14px;border:1px solid #d1d5db;background:#fff}
+  button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  button[disabled]{opacity:.5;cursor:not-allowed}
+  .hint{font-size:12px;color:var(--muted);margin-top:4px}
+  .status{margin-top:8px;font-size:13px}
+  .error{color:#b91c1c}
+  main{max-width:980px;margin:0 auto;padding:16px}
+  .drop{margin:8px 0;padding:18px;border:2px dashed #cbd5e1;background:#fff;border-radius:10px;text-align:center;color:#374151}
+  .drop.drag{background:#eefbf5;border-color:#34d399}
+  #list{display:grid;gap:8px;margin-top:12px}
+  .name{padding:8px 10px;border:1px dashed #ccc;background:#fff}
+  #pages{margin-top:16px}
+  .page{display:flex;align-items:center;justify-content:center;height:100vh;background:#fff;border:1px solid #eee;margin:8px 0}
+  .title{font-size:72px;font-weight:800;text-align:center;word-break:break-word;padding:0 24px}
+  @media print{
+    header,.screen-only{display:none !important}
+    @page{size:A4;margin:15mm}
+    .page{border:none;height:auto;min-height:257mm;page-break-after:always;margin:0}
+    .title{font-size:72pt}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Ristoranti → Stampa un nome per foglio</h1>
+    <div class="controls">
+      <input id="file" type="file" accept=".xlsx,.xls" />
+      <button id="loadBtn" class="">Carica</button>
+      <label>Foglio: <select id="sheetSel" disabled></select></label>
+      <label>Colonna: <select id="colSel" disabled></select></label>
+      <button id="printBtn" class="primary" disabled>Stampa</button>
+    </div>
+    <div class="hint">Scegli il file Excel e premi “Carica”. Poi seleziona foglio e colonna con i nomi.</div>
+    <div id="status" class="status"></div>
+  </div>
+</header>
+
+<main>
+  <div id="drop" class="drop screen-only">Oppure trascina qui il file .xlsx/.xls</div>
+  <h3 class="screen-only">Anteprima nomi</h3>
+  <div id="list" class="screen-only"></div>
+  <div id="pages"></div>
+</main>
+
+<script>
+const $ = s=>document.querySelector(s);
+const statusEl = $("#status");
+const fileEl = $("#file");
+const loadBtn = $("#loadBtn");
+const sheetSel = $("#sheetSel");
+const colSel = $("#colSel");
+const printBtn = $("#printBtn");
+const listEl = $("#list");
+const pagesEl = $("#pages");
+const drop = $("#drop");
+
+let workbook = null;
+let rowsCache = {};
+
+function setStatus(msg, isErr=false){
+  statusEl.innerHTML = isErr ? '<span class="error">'+escapeHTML(msg)+'</span>' : escapeHTML(msg);
+}
+
+function ensureXLSX(){
+  if(typeof XLSX === "undefined"){
+    setStatus("Libreria XLSX non caricata. Serve connessione internet o un blocco sta impedendo il caricamento del CDN.", true);
+    return false;
+  }
+  return true;
+}
+
+loadBtn.addEventListener("click", async ()=>{
+  if(!ensureXLSX()) return;
+  if(!fileEl.files.length){ setStatus("Seleziona un file Excel prima di premere Carica.", true); return; }
+  try{
+    setStatus("Lettura file…");
+    const f = fileEl.files[0];
+    const ab = await f.arrayBuffer();
+    workbook = XLSX.read(ab, {type:"array"});
+    fillSheetSelector();
+    setStatus("File caricato: "+f.name+".");
+  }catch(e){
+    console.error(e);
+    setStatus("Errore durante la lettura del file: "+e.message, true);
+  }
+});
+
+function fillSheetSelector(){
+  sheetSel.innerHTML = "";
+  workbook.SheetNames.forEach(n=>{
+    const o = document.createElement("option"); o.value=n; o.textContent=n; sheetSel.appendChild(o);
+  });
+  sheetSel.disabled = false;
+  rowsCache = {};
+  loadSheet(sheetSel.value);
+}
+
+sheetSel.addEventListener("change", ()=> loadSheet(sheetSel.value));
+colSel.addEventListener("change", ()=> render());
+printBtn.addEventListener("click", ()=> window.print());
+
+async function loadSheet(name){
+  if(!workbook) return;
+  if(!rowsCache[name]){
+    const ws = workbook.Sheets[name];
+    const aoa = XLSX.utils.sheet_to_json(ws, {header:1, raw:true, defval:""});
+    rowsCache[name] = aoa;
+  }
+  const rows = rowsCache[name];
+  // build columns
+  const cols = Math.max(...rows.map(r=>r.length), 0);
+  colSel.innerHTML = "";
+  const header = rows[0] || [];
+  for(let c=0;c<cols;c++){
+    const label = header[c] ? String(header[c]) : XLSX.utils.encode_col(c);
+    const o = document.createElement("option");
+    o.value = c; o.textContent = label;
+    colSel.appendChild(o);
+  }
+  colSel.disabled = cols===0;
+  // guess
+  let pick = 0;
+  const headerLower = header.map(x => String(x||"").toLowerCase());
+  const kw = ["nome","ristorante","name","restaurant"];
+  for(let i=0;i<headerLower.length;i++){
+    if(kw.some(k=>headerLower[i].includes(k))){ pick=i; break; }
+  }
+  colSel.value = String(pick);
+  render();
+}
+
+function render(){
+  const sheet = sheetSel.value;
+  const rows = rowsCache[sheet] || [];
+  const c = parseInt(colSel.value||"0",10);
+  let start = 0;
+  if(rows.length && typeof rows[0][c]==="string"){
+    const v = rows[0][c].toLowerCase();
+    if(v.includes("nome")||v.includes("ristorante")||v.includes("name")||v.includes("restaurant")) start=1;
+  }
+  const names = [];
+  for(let r=start;r<rows.length;r++){
+    const s = String(rows[r][c] ?? "").trim();
+    if(s) names.push(s);
+  }
+  listEl.innerHTML = names.map(n=>`<div class="name">${escapeHTML(n)}</div>`).join("");
+  pagesEl.innerHTML = names.map(n=>`<section class="page"><div class="title">${escapeHTML(n)}</div></section>`).join("");
+  printBtn.disabled = names.length===0;
+  setStatus(names.length ? `Trovati ${names.length} nomi.` : "Nessun nome trovato nella colonna selezionata.", names.length===0);
+}
+
+// drag & drop
+["dragenter","dragover"].forEach(evt=> drop.addEventListener(evt,e=>{e.preventDefault();drop.classList.add("drag")}));
+["dragleave","drop"].forEach(evt=> drop.addEventListener(evt,e=>{e.preventDefault();drop.classList.remove("drag")}));
+drop.addEventListener("drop", async (e)=>{
+  const f = e.dataTransfer.files[0];
+  if(!f) return;
+  fileEl.files = e.dataTransfer.files;
+  setStatus("File selezionato: "+f.name+". Premi Carica.");
+});
+
+function escapeHTML(str){
+  return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+</script>
+</body>
+</html>
