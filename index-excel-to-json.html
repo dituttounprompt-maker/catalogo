@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Excel → JSON (statico)</title>
+<link rel="icon" href="data:,">
+<style>
+  :root{--fg:#111;--bg:#fff;--muted:#6b7280;--accent:#0ea5e9;--border:#e5e7eb}
+  *{box-sizing:border-box}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:var(--bg);color:var(--fg)}
+  header{padding:16px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff}
+  h1{font-size:18px;margin:0}
+  main{padding:20px;max-width:1000px;margin:auto}
+  .card{border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px}
+  label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+  input[type=file]{padding:10px;border:1px dashed var(--border);width:100%;border-radius:10px;background:#fafafa}
+  .row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  select,button,input[type=text]{width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;font:inherit}
+  button{cursor:pointer}
+  button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .out{width:100%;height:300px;padding:12px;border:1px solid var(--border);border-radius:10px;font:12px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;white-space:pre;overflow:auto;background:#0b1020;color:#d1e7ff}
+  .muted{color:var(--muted);font-size:12px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .hidden{display:none}
+  .pill{display:inline-block;padding:4px 8px;border:1px solid var(--border);border-radius:999px;font-size:12px;margin-right:6px}
+  .flex{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<header>
+  <h1>Excel → JSON, tutto in pagina statica</h1>
+</header>
+<main>
+  <div class="card">
+    <label>Carica file Excel (.xlsx, .xls)</label>
+    <input id="file" type="file" accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
+    <div class="muted" style="margin-top:8px">Nulla viene inviato online. Parsing lato browser.</div>
+  </div>
+
+  <div id="mapper" class="card hidden">
+    <div class="flex">
+      <div class="pill">Righe: <span id="rowCount">0</span></div>
+      <div class="pill">Colonne: <span id="colCount">0</span></div>
+      <div class="pill">Foglio: <span id="sheetName">-</span></div>
+    </div>
+    <p class="muted" style="margin:10px 0">Mappa le colonne dell'Excel ai campi JSON. Se una colonna manca, lascia “—”.</p>
+    <div class="row">
+      <div>
+        <label>Articolo / Nome</label>
+        <select id="col_articolo"></select>
+      </div>
+      <div>
+        <label>Prezzo</label>
+        <select id="col_prezzo"></select>
+      </div>
+      <div>
+        <label>Categoria</label>
+        <select id="col_categoria"></select>
+      </div>
+      <div>
+        <label>Descrizione</label>
+        <select id="col_descrizione"></select>
+      </div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <div>
+        <label>Immagine (URL o nome file)</label>
+        <select id="col_img"></select>
+      </div>
+      <div>
+        <label>ID (opzionale)</label>
+        <select id="col_id"></select>
+      </div>
+      <div>
+        <label>Normalizza prezzo</label>
+        <select id="fmt_price">
+          <option value="keep">mantieni</option>
+          <option value="number">numero (es. 12.50)</option>
+          <option value="eur">EUR formattato (es. 12,50 €)</option>
+        </select>
+      </div>
+      <div>
+        <label>Output</label>
+        <select id="out_mode">
+          <option value="pretty">JSON leggibile</option>
+          <option value="compact">JSON compatto in una riga</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-top:14px" class="flex">
+      <button id="gen" class="primary">Genera JSON</button>
+      <button id="copy">Copia</button>
+      <span id="copyMsg" class="muted"></span>
+    </div>
+  </div>
+
+  <div id="outputCard" class="card hidden">
+    <label>Risultato</label>
+    <textarea id="out" class="out" readonly></textarea>
+  </div>
+
+  <div class="card">
+    <details>
+      <summary>Come usare</summary>
+      <ol>
+        <li>Carica il tuo Excel.</li>
+        <li>Controlla e imposta le colonne corrette.</li>
+        <li>Clicca “Genera JSON”.</li>
+        <li>Usa “Copia” e incolla nella tua pagina.</li>
+      </ol>
+      <p class="muted">Rileviamo automaticamente l'intestazione dalla prima riga del foglio 1.</p>
+    </details>
+  </div>
+</main>
+
+<!-- SheetJS (xlsx) CDN -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+let headers = [];
+let rows = [];
+let sheetName = "";
+
+function setOptions(sel, headers){
+  sel.innerHTML = "";
+  const optNone = document.createElement('option');
+  optNone.value = "__none__";
+  optNone.textContent = "—";
+  sel.appendChild(optNone);
+  headers.forEach(h=>{
+    const o = document.createElement('option');
+    o.value = h; o.textContent = h;
+    sel.appendChild(o);
+  });
+}
+
+function guessSelects(){
+  const map = [
+    ["col_articolo", ["articolo","nome","prodotto","descrizione","title"]],
+    ["col_prezzo", ["prezzo","price","costo"]],
+    ["col_categoria", ["categoria","gruppo","reparto","categoria1"]],
+    ["col_descrizione", ["descrizione","desc","dettagli"]],
+    ["col_img", ["img","immagine","image","foto","url"]],
+    ["col_id", ["id","codice","sku","code"]],
+  ];
+  map.forEach(([id, keys])=>{
+    const sel = $("#"+id);
+    const found = headers.find(h => keys.includes(String(h).toLowerCase().trim()));
+    if(found) sel.value = found;
+  });
+}
+
+$("#file").addEventListener("change", async (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const data = await file.arrayBuffer();
+  const wb = XLSX.read(data);
+  sheetName = wb.SheetNames[0];
+  const ws = wb.Sheets[sheetName];
+  const json = XLSX.utils.sheet_to_json(ws, {header:1, defval:""});
+  if(json.length === 0){ alert("Foglio vuoto"); return; }
+
+  headers = json[0].map(h => String(h).trim());
+  rows = json.slice(1).map(r => {
+    const obj = {};
+    headers.forEach((h, i)=> obj[h] = r[i] ?? "");
+    return obj;
+  });
+
+  $("#mapper").classList.remove("hidden");
+  $("#outputCard").classList.add("hidden");
+  $("#rowCount").textContent = rows.length;
+  $("#colCount").textContent = headers.length;
+  $("#sheetName").textContent = sheetName;
+
+  // populate selects
+  ["col_articolo","col_prezzo","col_categoria","col_descrizione","col_img","col_id"].forEach(id => setOptions($("#"+id), headers));
+  guessSelects();
+});
+
+function normPrice(val, mode){
+  if(mode === "keep") return val;
+  // estrai numero
+  const num = String(val).replace(/\s/g,"").replace(",",".").match(/-?\d+(\.\d+)?/);
+  const n = num ? parseFloat(num[0]) : null;
+  if(n==null || isNaN(n)) return "";
+  if(mode === "number") return n;
+  if(mode === "eur"){
+    try{
+      return new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(n);
+    }catch(e){ return n.toFixed(2); }
+  }
+  return val;
+}
+
+$("#gen").addEventListener("click", ()=>{
+  const col = {
+    articolo: $("#col_articolo").value,
+    prezzo: $("#col_prezzo").value,
+    categoria: $("#col_categoria").value,
+    descrizione: $("#col_descrizione").value,
+    img: $("#col_img").value,
+    id: $("#col_id").value
+  };
+  const fmt = $("#fmt_price").value;
+  const outMode = $("#out_mode").value;
+
+  const arr = rows.map(r => {
+    const o = {};
+    if(col.id !== "__none__") o.id = r[col.id];
+    if(col.articolo !== "__none__") o.articolo = r[col.articolo];
+    if(col.descrizione !== "__none__") o.descrizione = r[col.descrizione];
+    if(col.categoria !== "__none__") o.categoria = r[col.categoria];
+    if(col.img !== "__none__") o.img = r[col.img];
+    if(col.prezzo !== "__none__") o.prezzo = normPrice(r[col.prezzo], fmt);
+    return o;
+  }).filter(o => Object.keys(o).length>0);
+
+  const json = outMode === "pretty"
+    ? JSON.stringify(arr, null, 2)
+    : JSON.stringify(arr);
+
+  $("#out").value = json;
+  $("#outputCard").classList.remove("hidden");
+  $("#out").scrollTop = 0;
+});
+
+$("#copy").addEventListener("click", async ()=>{
+  const txt = $("#out").value;
+  if(!txt){ $("#copyMsg").textContent = "Nessun output da copiare"; return; }
+  try{
+    await navigator.clipboard.writeText(txt);
+    $("#copyMsg").textContent = "Copiato negli appunti";
+    setTimeout(()=>$("#copyMsg").textContent="", 1500);
+  }catch(e){
+    $("#copyMsg").textContent = "Impossibile copiare automaticamente. Seleziona e copia manualmente.";
+  }
+});
+</script>
+</body>
+</html>
