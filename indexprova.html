@@ -233,51 +233,520 @@
   <script>
   // === DATI ===
   const PRODUCTS = [
-    {id:"36-tonno-corallo-busta",name:"Tonno Corallo in busta",price:7.50,shortDesc:"Tonno Corallo all'olio di semi di girasole, confezione da 1 kg",fullDesc:"",images:["images/tonno-corallo.jpg"]},
-    {id:"31-tonno-affumicato-trancio",name:"Tonno affumicato in trancio",price:27.50,unit:"/kg",shortDesc:"Tonno affumicato in trancio da 1 kg circa",fullDesc:"Tranci di tonno pinna gialla da tagliare fine",images:["images/tonno-affumicato.jpg"]},
-    {id:"32-spada-affumicato",name:"Pesce spada affumicato",price:36.50,unit:"/kg",shortDesc:"Pesce spada affumicato in trancio da 1 kg circa",fullDesc:"Pesce spada affumicato in tranci da 1 kg circa",images:["images/spada-affumicato.jpg"]},
-    {id:"05-bocconcini-alici-arrotolate",name:"Bocconcini di alici e olive spinate arrotolate",price:13.70,shortDesc:"Alici e olive spinate ed arrotolate, confezione da 1 kg",fullDesc:"Bocconcini di alici e olive spinate, ideali per crostini e antipasti",images:["images/alici-bocconcini.jpg", "images/alici-bocconcini-back.jpg"]},
-    {id:"01-acciughe-filetti-riunione",name:"Filetti di alici del Cantabrico",price:2.80,shortDesc:"Filetti di alici del Cantabrico in olio d'oliva, confezione da 48 gr",fullDesc:"Filetti di alici Riunione selezionati e sott’olio. Ideali per antipasti, pizze e insalate.",images:["images/acciughe-filetti-riunione.jpg"]},
-    {id:"04-alici-filetti-acciughe",name:"Filetti di alici Corallo",price:11.60,shortDesc:"Alici in filetto in olio di girasole, confezione da 720 gr",fullDesc:"Filetti di alici lavorati a regola d’arte, gusto intenso e pulito.",images:["images/acciughe-filetti.jpg"]},
-    {id:"02-alici-colatura",name:"Alici Colatura",price:6.20,shortDesc:"Alici colatura, confezione da 100 ml",fullDesc:"Condimento tradizionale a base di alici. Perfetto su spaghetti, verdure e crostini.",images:["images/alici-colatura.jpg"]},
-    {id:"03-alici-filetti",name:"Filetti di alici Albatros",price:12.50,shortDesc:"Alici in filetto in olio di girasole, confezione da 720 gr",fullDesc:"Filetti di alici dal sapore equilibrato. Ottimi per ricette fredde e calde.",images:["images/alici-filetti.jpg"]},
-    {id:"07-alici-filetto",name:"Filetto di alici marinate",price:12.20,shortDesc:"Filetto di alici al pepe rosa in olio di semi di girasole, confezione da 1 kg",fullDesc:"Filetto singolo di alici, comodo per porzioni precise e guarnizioni.",images:["images/alici-filetto.jpg"]},
-    {id:"06-alici-pezzi",name:"Alici Pezzi",price:9.50,shortDesc:"Alici in pezzi in olio di girasole, confezione da 720gr",fullDesc:"Pezzi di alici pratici per insalate, paste e focacce.",images:["images/alici-pezzi.jpg"]},
-    {id:"08-sgombro-filetto-affumicato",name:"Filetto Sgombro aff.to al pepe",price:5.40,shortDesc:"Filetto di sgombro, confezione da 200 gr",fullDesc:"Filetto di sgombro affumicato a caldo. Aroma deciso, texture morbida.",images:["images/aringa-affumicata.jpg"]},
-    {id:"09-aringa-affumicata",name:"Filetto aringa aff.ta",price:1.80,shortDesc:"Filetto di aringa, confezione da 100 gr",fullDesc:"Filetto di aringa affumicata. Aroma deciso.",images:[""]},
-    {id:"14-baccala-mantecato-200",name:"Baccalà mantecato 200g",price:3.80,shortDesc:"Baccalà mantecato, confezione da 200 gr",fullDesc:"Baccalà mantecato. Pronto all’uso per crostini o secondi rapidi.",images:["images/baccala-mantecato-35-200.jpg"]},
-    {id:"15-baccala-mantecato-35",name:"Baccalà mantecato 35%",price:17.50,shortDesc:"Baccalà mantecato 35%, confezione da 1 kg",fullDesc:"Baccalà mantecato. Pronto all’uso per crostini o secondi rapidi.",images:["images/baccala-mantecato-35-front.jpg", "images/baccala-mantecato-35-200-back.jpg"]},
-    {id:"16-baccala-senza-aglio",name:"Baccalà mantecato 45%",price:19.80,shortDesc:"Baccalà mantecato 45%, confezione da 1 kg",fullDesc:"Baccalà mantecato senz'aglio. Pronto all’uso per crostini o secondi rapidi.",images:["images/baccala-senza-front.jpg", "images/baccala-senza-back.jpg"]},
-    {id:"12-baccala-condito-200",name:"Baccalà Condito 200g",price:6.50,shortDesc:"Baccalà condito, confezione da 200 gr",fullDesc:"Baccalà già condito. Pronto all’uso per crostini o secondi rapidi.",images:["images/baccala-condito-200.jpg"]},
-    {id:"13-baccala-condito-k1",name:"Baccalà Condito da 1 kg",price:27.50,shortDesc:"Baccalà condito, confezione da 1 kg",fullDesc:"Baccalà già condito. Pronto all’uso per crostini o secondi rapidi.",images:[""]},
-    {id:"17-baccala-umido-150",name:"Baccalà Umido 150g",price:5.50,shortDesc:"Baccalà in umido, confezione da 150 gr",fullDesc:"Preparazione in umido dal sapore ricco. Da scaldare e servire.",images:["images/baccala-umido-150.jpg"]},
-    {id:"18-baccala-umido-k1",name:"Baccalà Umido 1kg",price:27.00,shortDesc:"Baccalà in umido, confezione da 1 kg",fullDesc:"Preparazione in umido dal sapore ricco. Da scaldare e servire.",images:[""]},
-    {id:"20-baccala-vicentina",name:"Baccalà alla Vicentina",price:25.50,shortDesc:"Baccalà alla vicentina, confezione da 1 kg",fullDesc:"Ricetta tradizionale alla vicentina. Cottura lenta e gusto autentico.",images:["images/baccala-vicentina-1.jpg"]},
-    {id:"19-baccala-vicentina-200",name:"Baccalà alla Vicentina 200g",price:6.50,shortDesc:"Baccalà alla vicentina, confezione da 200 gr",fullDesc:"Porzione da 200 gr della nostra vicentina. Pronta da servire.",images:["images/baccala-vicentina-200.jpg"]},
-    {id:"29-saor-gamberi",name:"Gamberi in saor",price:23.50,shortDesc:"Gamberi in saor, confezione da 800 gr",fullDesc:"Gamberi in saor, ricetta tipica veneziana.",images:["images/saor-gamberi.png"]},
-    {id:"30-saor-sarde",name:"Sarde in saor",price:11.00,shortDesc:"Sarde in saor, confezione da 1 kg",fullDesc:"Sarde in saor, ricetta tipica veneziana.",images:["images/saor-sarde.png"]},    
-    {id:"22-bottarga-muggine",name:"Bottarga di Muggine",price:72.00,unit:"/kg",shortDesc:"Bottarga di muggine confezione da 50/70 gr",fullDesc:"Bottarga stagionata, ideale grattugiata su pasta e risotti.",images:["images/bottarga-muggine.jpg"]},
-    {id:"21-bottarga-tonno",name:"Bottarga di Tonno",price:79.00,unit:"/kg",shortDesc:"Bottarga di tonno confezione da 50/100 gr",fullDesc:"Bottarga di tonno dal sapore pieno. Per ricette gourmet.",images:["images/bottarga-tonno.jpg"]},
-    {id:"44-uova-caviale-classic-select",name:"Caviale Classic Select",price:98.00,shortDesc:"Caviale Iran Darya, Acipenser Baerii confezione da 100 gr",fullDesc:"Selezione pregiata. Per degustazioni e abbinamenti raffinati.",images:["images/caviale-iran-darya.jpg"]},
-    {id:"45-uova-caviale-royalpop",name:"Caviale Royalpop",price:11.50,shortDesc:"Acipenser Trasmontanus, confezione da 10 gr",fullDesc:"Perle di caviale selezionate. Profilo aromatico complesso.",images:["images/caviale-royalpop.jpg"]},
-    {id:"10-bac-dentice-crema-200",name:"Dentice Crema 200 gr",price:7.50,shortDesc:"Dentice crema, confezione da 200 gr",fullDesc:"Crema spalmabile di dentice. Perfetta per antipasti veloci.",images:["images/dentice-crema-200.jpg"]},
-    {id:"11-bac-dentice-crema-500",name:"Dentice Crema 500 gr",price:15.80,shortDesc:"Dentice crema, confezione da 500 gr",fullDesc:"Formato famiglia della crema di dentice. Rende fino a 10 tartine.",images:["images/dentice-crema-500.jpg"]},
-    {id:"23-nero-seppia",name:"Nero di Seppia",price:11.20,shortDesc:"Nero di seppia, confezione da 500 gr",fullDesc:"Classico per risotti e paste al nero. Colore intenso, sapore di mare.",images:["images/nero-seppia.jpg"]},
-    {id:"24-polpa-granchio",name:"Polpa di Granchio Smeralda",price:8.00,shortDesc:"Polpa di granchio Smeralda, confezione da 170 gr",fullDesc:"Polpa pronta per insalate di mare, paste fredde e sushi rolls.",images:["images/polpa-granchio.jpg"]},
-    {id:"25-polpa-riccio-riunione",name:"Polpa di Riccio Riunione",price:8.50,shortDesc:"Polpa di riccio Riunione, confezione da 90 gr",fullDesc:"Gusto marino deciso. Ideale emulsionata con olio per condire pasta.",images:["images/polpa-riccio-riunione.jpg"]},
-    {id:"26-polpa-riccio",name:"Polpa di Riccio Smeralda",price:11.00,shortDesc:"Polpa di riccio Smeralda, confezione da 70 gr",fullDesc:"Polpa pura per ricette mediterranee dal sapore intenso.",images:["images/polpa-riccio.jpg"]},
-    {id:"27-salmone-intero-norv",name:"Salmone aff.to preaffettato Norvegese",price:22.50,unit:"/kg",shortDesc:"Salmone affumicato preaffettato norvegese, confezione da circa 1 kg",fullDesc:"Salmone preafettato selezionato. Adatto a cotture al forno o affumicatura.",images:["images/salmone-intero-norv.jpg"]},
-    {id:"28-salmone-preaff-norv",name:"Salmone aff.to preaffettato Norvegese",price:6.50,shortDesc:"Salmone affumicato preaffettato norvegese, confezione da 200 gr",fullDesc:"Fette regolari pronte al servizio. Perfette per antipasti e bagel.",images:["images/salmone-preaff-norv.jpg"]},
-    {id:"33-stoccafisso-salato",name:"Filetto di ling salinato",price:10.80,unit:"/kg",shortDesc:"Stoccafisso salato da 1 kg circa",fullDesc:"Stoccafisso di qualità. Da ammollare e cucinare secondo ricetta.",images:["images/stoccafisso-salato.jpg"]},
-    {id:"34-stoccafisso-secco",name:"Stoccafisso Secco",price:49.50,unit:"/kg",shortDesc:"Stoccafisso essiccato",fullDesc:"Essiccazione naturale. Base per piatti tipici del nord Europa.",images:["images/stoccafisso-secco.jpg"]},
-    {id:"35-tonno-corallo",name:"Tonno Corallo in latta",price:10.60,shortDesc:"Tonno Corallo, all'olio di semi di girasole, confezione da 1730 gr",fullDesc:"Tranci in olio. Consistenza compatta, gusto pieno.",images:["images/tonno-corallo2.jpg"]},
-    {id:"37-tonno-filetti-acantilado",name:"Tonno Filetti Acantilado",price:18.00,shortDesc:"Filetti di tonno Acantilado in olio d'oliva, confezione da 850 gr",fullDesc:"Filetti selezionati. Buoni da soli o in insalate ricche.",images:["images/tonno-filetti-acantilado.jpg"]},
-    {id:"38-tonno-filetti-albatros",name:"Tonno Filetti Albatros",price:4.10,shortDesc:"Filetti di tonno Albatros in olio d'oliva, confezione da 190 gr",fullDesc:"Filetti sodi e saporiti. Versatili per molte preparazioni.",images:["images/tonno-filetto-albatros.jpg"]},
-    {id:"39-tonno-filone",name:"Tonno Filone sottovuoto",price:18.80,unit:"/kg",shortDesc:"Tonno filone sottovuoto, prodotto decongelato",fullDesc:"Filone di tonno per taglio fresco o tranci. Alta resa.",images:["images/tonno-filone-albaladejo.jpg"]},
-    {id:"40-tonno-filone-atm",name:"Tonno Filone ATM",price:20.50,unit:"/kg",shortDesc:"Tonno filone ATM, prodotto decongelato",fullDesc:"Filone confezionato in ATM per migliore conservazione.",images:["images/tonno-filone-atm.jpg"]},
-    {id:"41-uova-aringa",name:"Uova di Aringa",price:10.50,shortDesc:"Uova di aringa, confezione da 55 gr",fullDesc:"Per tartine e sushi. Grana fine, sapore affumicato leggero.",images:["images/uova-aringa.jpg"]},
-    {id:"42-uova-lompo",name:"Uova di Lompo",price:2.80,shortDesc:"Uova di lompo, confezione da 50 gr",fullDesc:"Classiche per decorazioni e finger food. Colore brillante.",images:["images/uova-lompo.jpg"]},
-    {id:"43-uova-salmone",name:"Uova di Salmone",price:10.30,shortDesc:"Uova di salmone, confezione da 50 gr",fullDesc:"Uova corpose dal gusto delicato. Perfette su blinis e avocado toast.",images:["images/uova-salmone.jpg"]}
+   
+  {
+    "id": "0-alici-del-cantabrico-gr-48",
+    "name": "ALICI DEL CANTABRICO GR. 48",
+    "price": 2.8,
+    "shortDesc": "ALICI DEL CANTABRICO GR. 48.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "1-alici-filpezzi-so-x-720gr",
+    "name": "ALICI FIL.(PEZZI)   S/O x 720gr",
+    "price": 9.5,
+    "shortDesc": "ALICI FIL.(PEZZI)   S/O x 720gr.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "2-alici-marinate-x-1kg",
+    "name": "ALICI MARINATE  x 1Kg",
+    "price": 12.2,
+    "shortDesc": "ALICI MARINATE  x 1Kg.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "3-alici-panate-croccanti",
+    "name": "ALICI PANATE CROCCANTI",
+    "price": 8.9,
+    "shortDesc": "ALICI PANATE CROCCANTI.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "4-anelli-di-cipolla-pastellati-prefritti",
+    "name": "ANELLI DI CIPOLLA PASTELLATI  PREFRITTI",
+    "price": 5.2,
+    "shortDesc": "ANELLI DI CIPOLLA PASTELLATI  PREFRITTI.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "5-arancini-agli-spinaci-prefritti",
+    "name": "ARANCINI AGLI SPINACI PREFRITTI",
+    "price": 5.5,
+    "shortDesc": "ARANCINI AGLI SPINACI PREFRITTI.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "6-arancini-cmozzarella-e-prosciutto-prefr",
+    "name": "ARANCINI C/MOZZARELLA E PROSCIUTTO PREFR.",
+    "price": 5.5,
+    "shortDesc": "ARANCINI C/MOZZARELLA E PROSCIUTTO PREFR..",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "7-arrosticini-di-mare-panati-totano-gigas",
+    "name": "ARROSTICINI DI MARE PANATI (totano gigas)",
+    "price": 8.3,
+    "shortDesc": "ARROSTICINI DI MARE PANATI (totano gigas).",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "8-baccala-condito",
+    "name": "BACCALA' CONDITO    *",
+    "price": 27.5,
+    "shortDesc": "BACCALA' CONDITO    *.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "9-baccala-in-umido",
+    "name": "BACCALA' IN UMIDO   *",
+    "price": 27,
+    "shortDesc": "BACCALA' IN UMIDO   *.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "10-baccala-mantecato-gluten-free",
+    "name": "BACCALA' MANTECATO  (gluten free)",
+    "price": 24,
+    "shortDesc": "BACCALA' MANTECATO  (gluten free).",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "11-baccala-mantecato-35",
+    "name": "BACCALA' MANTECATO 35%",
+    "price": 17.5,
+    "shortDesc": "BACCALA' MANTECATO 35%.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "12-baccala-mantecato-45",
+    "name": "BACCALA' MANTECATO 45%",
+    "price": 19.8,
+    "shortDesc": "BACCALA' MANTECATO 45%.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "13-baccala-vicentina",
+    "name": "BACCALA' VICENTINA  *",
+    "price": 25.5,
+    "shortDesc": "BACCALA' VICENTINA  *.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "14-bocconcini-alici-oliva-e-peperconfda-1kg",
+    "name": "BOCCONCINI ALICI OLIVA E PEPER.conf.da 1kg.",
+    "price": 13.7,
+    "shortDesc": "BOCCONCINI ALICI OLIVA E PEPER.conf.da 1kg..",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "15-bottarga-di-muggine",
+    "name": "BOTTARGA DI MUGGINE",
+    "price": 72,
+    "shortDesc": "BOTTARGA DI MUGGINE.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "16-bottarga-di-tonno",
+    "name": "BOTTARGA DI TONNO",
+    "price": 79,
+    "shortDesc": "BOTTARGA DI TONNO.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "17-chele-di-granchio-panate",
+    "name": "CHELE DI GRANCHIO PANATE",
+    "price": 5.5,
+    "shortDesc": "CHELE DI GRANCHIO PANATE.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "18-colatura-di-alici-da-100-ml",
+    "name": "COLATURA DI ALICI DA 100 ML.",
+    "price": 6.2,
+    "shortDesc": "COLATURA DI ALICI DA 100 ML..",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "19-crema-di-dentice-in-vaschetta-da-200-gr",
+    "name": "CREMA DI DENTICE IN VASCHETTA DA 200 gr.",
+    "price": 7.5,
+    "shortDesc": "CREMA DI DENTICE IN VASCHETTA DA 200 gr..",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "20-crema-di-dentice-in-vaschetta-da-500-gr",
+    "name": "CREMA DI DENTICE IN VASCHETTA DA 500 gr.",
+    "price": 15.8,
+    "shortDesc": "CREMA DI DENTICE IN VASCHETTA DA 500 gr..",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "21-filetto-di-alici-so-x-720gr-albatros",
+    "name": "FILETTO DI ALICI   S/O x 720gr ALBATROS",
+    "price": 12.5,
+    "shortDesc": "FILETTO DI ALICI   S/O x 720gr ALBATROS.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "22-filetto-di-alici-so-x-720gr-corallo",
+    "name": "FILETTO DI ALICI   S/O x 720gr CORALLO",
+    "price": 11.6,
+    "shortDesc": "FILETTO DI ALICI   S/O x 720gr CORALLO.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "23-filetto-di-aringa-da-gr-100",
+    "name": "FILETTO DI ARINGA DA GR. 100",
+    "price": 1.8,
+    "shortDesc": "FILETTO DI ARINGA DA GR. 100.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "24-filetto-di-baccala-pastellato-cprezzem",
+    "name": "FILETTO DI BACCALA' PASTELLATO C/PREZZEM.",
+    "price": 11.9,
+    "shortDesc": "FILETTO DI BACCALA' PASTELLATO C/PREZZEM..",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "25-filetto-di-sgombro-al-pepe-da-200-g",
+    "name": "FILETTO DI SGOMBRO AL PEPE DA 200 G",
+    "price": 5.4,
+    "shortDesc": "FILETTO DI SGOMBRO AL PEPE DA 200 G.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "26-fiori-di-zucca-cmozzare-alici-prefritti",
+    "name": "FIORI DI ZUCCA C/MOZZAR.E ALICI  PREFRITTI",
+    "price": 9.3,
+    "shortDesc": "FIORI DI ZUCCA C/MOZZAR.E ALICI  PREFRITTI.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "27-fiori-di-zucca-cprosciutto-e-mozzar-prefr",
+    "name": "FIORI DI ZUCCA C/PROSCIUTTO E MOZZAR  PREFR.",
+    "price": 8.1,
+    "shortDesc": "FIORI DI ZUCCA C/PROSCIUTTO E MOZZAR  PREFR..",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "28-fiori-di-zucca-pastellati-prefritti",
+    "name": "FIORI DI ZUCCA PASTELLATI PREFRITTI",
+    "price": 11.5,
+    "shortDesc": "FIORI DI ZUCCA PASTELLATI PREFRITTI.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "29-frittelle-gamberi-e-zucchine",
+    "name": "FRITTELLE GAMBERI E ZUCCHINE",
+    "price": 11.5,
+    "shortDesc": "FRITTELLE GAMBERI E ZUCCHINE.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "30-gamberi-avvolti-in-filo-di-patata",
+    "name": "GAMBERI AVVOLTI  IN FILO DI PATATA",
+    "price": 14,
+    "shortDesc": "GAMBERI AVVOLTI  IN FILO DI PATATA.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "31-gamberi-sgusciati-preccong",
+    "name": "GAMBERI SGUSCIATI PREC.CONG.",
+    "price": 14.9,
+    "shortDesc": "GAMBERI SGUSCIATI PREC.CONG..",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "32-mozzarelline-panate-con-tartufo-prefritte",
+    "name": "MOZZARELLINE PANATE CON TARTUFO PREFRITTE",
+    "price": 7.8,
+    "shortDesc": "MOZZARELLINE PANATE CON TARTUFO PREFRITTE.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "33-mozzarelline-panate-prefritte",
+    "name": "MOZZARELLINE PANATE PREFRITTE",
+    "price": 6.5,
+    "shortDesc": "MOZZARELLINE PANATE PREFRITTE.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "34-nero-di-seppia-in-vaso-da-gr500",
+    "name": "NERO DI SEPPIA IN VASO DA gr.500",
+    "price": 10.2,
+    "shortDesc": "NERO DI SEPPIA IN VASO DA gr.500.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "35-olive-ascolane",
+    "name": "OLIVE ASCOLANE",
+    "price": 5.4,
+    "shortDesc": "OLIVE ASCOLANE.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "36-olive-ascolane-prefritte",
+    "name": "OLIVE ASCOLANE PREFRITTE",
+    "price": 5.9,
+    "shortDesc": "OLIVE ASCOLANE PREFRITTE.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "37-panzerotti-mozzarella-pomodoro-prefr",
+    "name": "PANZEROTTI MOZZARELLA  POMODORO PREFR.",
+    "price": 5.4,
+    "shortDesc": "PANZEROTTI MOZZARELLA  POMODORO PREFR..",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "38-pesce-spada-tranci-fume",
+    "name": "PESCE SPADA TRANCI FUME'",
+    "price": 36.5,
+    "shortDesc": "PESCE SPADA TRANCI FUME'.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "39-pizzette-di-pasta-sfoglia",
+    "name": "PIZZETTE DI PASTA SFOGLIA",
+    "price": 5.5,
+    "shortDesc": "PIZZETTE DI PASTA SFOGLIA.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "40-polpa-di-granchio-precotta-in-piastina-da-gr-380",
+    "name": "POLPA DI GRANCHIO PRECOTTA IN PIASTINA DA GR. 380",
+    "price": 11.8,
+    "shortDesc": "POLPA DI GRANCHIO PRECOTTA IN PIASTINA DA GR. 380.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "41-polpa-di-granchio-x-170-gr-smeralda",
+    "name": "POLPA DI GRANCHIO X 170 gr. SMERALDA",
+    "price": 8,
+    "shortDesc": "POLPA DI GRANCHIO X 170 gr. SMERALDA.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "42-polpa-di-riccio-mare-x-70-gr-smeralda",
+    "name": "POLPA DI RICCIO MARE X 70 gr. SMERALDA",
+    "price": 11,
+    "shortDesc": "POLPA DI RICCIO MARE X 70 gr. SMERALDA.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "43-polpa-di-riccio-mare-x-90-gr",
+    "name": "POLPA DI RICCIO MARE X 90 gr.",
+    "price": 8.5,
+    "shortDesc": "POLPA DI RICCIO MARE X 90 gr..",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "44-polpette-di-baccala",
+    "name": "POLPETTE DI BACCALA'",
+    "price": 14,
+    "shortDesc": "POLPETTE DI BACCALA'.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "45-polpette-di-brasato",
+    "name": "POLPETTE DI BRASATO",
+    "price": 14,
+    "shortDesc": "POLPETTE DI BRASATO.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "46-polpette-di-pollo-e-speck",
+    "name": "POLPETTE DI POLLO E SPECK",
+    "price": 12,
+    "shortDesc": "POLPETTE DI POLLO E SPECK.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "47-polpette-di-tonno-e-cipolla",
+    "name": "POLPETTE DI TONNO E CIPOLLA",
+    "price": 14,
+    "shortDesc": "POLPETTE DI TONNO E CIPOLLA.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "48-polpette-di-verdure",
+    "name": "POLPETTE DI VERDURE",
+    "price": 12,
+    "shortDesc": "POLPETTE DI VERDURE.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "49-polpette-melanzmozzprovola-affumic",
+    "name": "POLPETTE MELANZ.MOZZ.PROVOLA AFFUMIC.",
+    "price": 5.5,
+    "shortDesc": "POLPETTE MELANZ.MOZZ.PROVOLA AFFUMIC..",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "50-salatini-7-gusti",
+    "name": "SALATINI 7 GUSTI",
+    "price": 5.5,
+    "shortDesc": "SALATINI 7 GUSTI.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "51-salmone-affto-buste-x-200gr",
+    "name": "SALMONE AFF.TO BUSTE x 200gr",
+    "price": 6.5,
+    "shortDesc": "SALMONE AFF.TO BUSTE x 200gr.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "52-salmone-affto-preaffnorvegia",
+    "name": "SALMONE AFF.TO PREAFF.NORVEGIA",
+    "price": 22.5,
+    "shortDesc": "SALMONE AFF.TO PREAFF.NORVEGIA.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "53-salvia-pastellata-prefritta",
+    "name": "SALVIA PASTELLATA PREFRITTA",
+    "price": 11.5,
+    "shortDesc": "SALVIA PASTELLATA PREFRITTA.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "54-sarde-in-saor-in-vaschetta-da-800-gr",
+    "name": "SARDE IN SAOR IN VASCHETTA DA 800 gr.",
+    "price": 11,
+    "shortDesc": "SARDE IN SAOR IN VASCHETTA DA 800 gr..",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "55-stoccafisso-wm-8001000",
+    "name": "STOCCAFISSO WM 800/1000",
+    "price": 43,
+    "shortDesc": "STOCCAFISSO WM 800/1000.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "56-tartare-di-gambero-rosso-da-gr-80-sv",
+    "name": "TARTARE DI GAMBERO ROSSO DA GR. 80 S/V",
+    "price": 6.5,
+    "shortDesc": "TARTARE DI GAMBERO ROSSO DA GR. 80 S/V.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "57-tonno-tranci-fume",
+    "name": "TONNO  TRANCI FUME'",
+    "price": 27.5,
+    "shortDesc": "TONNO  TRANCI FUME'.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "58-tonno-corallo-in-ogirasole-x-1730gr",
+    "name": "TONNO \"CORALLO\" IN O.GIRASOLE x 1730gr",
+    "price": 10.6,
+    "shortDesc": "TONNO \"CORALLO\" IN O.GIRASOLE x 1730gr.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "59-tonno-in-busta-ogirasole-x-1-kg",
+    "name": "TONNO IN BUSTA O.GIRASOLE x 1 KG.",
+    "price": 7.5,
+    "shortDesc": "TONNO IN BUSTA O.GIRASOLE x 1 KG..",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "60-tris-di-verdure-pastellate-prefritte",
+    "name": "TRIS DI VERDURE PASTELLATE PREFRITTE",
+    "price": 5.2,
+    "shortDesc": "TRIS DI VERDURE PASTELLATE PREFRITTE.",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "61-uova-di-aringa-x-55-gr",
+    "name": "UOVA DI ARINGA X 55 gr.",
+    "price": 10.5,
+    "shortDesc": "UOVA DI ARINGA X 55 gr..",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "62-uova-di-lompo-x-50-gr",
+    "name": "UOVA DI LOMPO X 50 gr.",
+    "price": 2.8,
+    "shortDesc": "UOVA DI LOMPO X 50 gr..",
+    "fullDesc": "",
+    "images": []
+  },
+  {
+    "id": "63-uova-di-salmone-x-50-gr",
+    "name": "UOVA DI SALMONE X 50 gr.",
+    "price": 10.3,
+    "shortDesc": "UOVA DI SALMONE X 50 gr..",
+    "fullDesc": "",
+    "images": []
+  }
+
   ];
   // Ordina alfabeticamente per id
   PRODUCTS.sort((a,b)=>a.id.localeCompare(b.id));
