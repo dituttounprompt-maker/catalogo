@@ -3,33 +3,45 @@
     .line { fill:none; stroke:#007C73; stroke-width:28; stroke-linecap:round; stroke-linejoin:round; }
   </style>
 
-  <!-- CLIP PATH -->
+  <!-- CLIP UNICO -->
   <clipPath id="sanpietro-clip">
-    <!-- corpo ovale alto -->
-    <path d="M140 400
-      C240 240, 520 220, 780 300
-      C860 260, 940 260, 1020 290
-      C1080 310, 1110 340, 1125 370
-      C1100 400, 1100 440, 1125 470
-      C1110 500, 1080 530, 1020 550
-      C940 580, 860 580, 780 540
-      C520 640, 240 560, 140 400 Z"/>
+    <!-- sagoma unica: corpo + coda + testa + pinne -->
+    <path d="
+      M 70 400
+      L 150 330
+      C 260 230, 520 210, 780 300
+      C 880 260, 980 270, 1080 310
+      L 1160 340
+      L 1160 510
+      L 1080 540
+      C 980 580, 880 580, 780 540
+      C 520 640, 260 570, 150 470
+      L 70 400
+      Z
 
-    <!-- coda -->
-    <path d="M140 400 L70 350 L60 450 Z"/>
+      M 430 560
+      L 380 650
+      L 470 630
+      Z
 
-    <!-- testa -->
-    <path d="M1020 550 L1130 515 L1130 335 L1020 300 Z"/>
+      M 540 570
+      L 510 660
+      L 600 630
+      Z
 
-    <!-- pinne -->
-    <path d="M520 560 L470 650 L560 630 Z"/>
-    <path d="M630 570 L610 660 L690 630 Z"/>
-    <path d="M470 270 L450 190 L500 270 Z"/>
-    <path d="M520 270 L510 180 L560 270 Z"/>
-    <path d="M570 285 L580 195 L630 300 Z"/>
+      M 470 270
+      L 440 190
+      L 520 270
+      Z
+
+      M 530 270
+      L 520 180
+      L 600 290
+      Z
+    " />
   </clipPath>
 
-  <!-- righe orizzontali visibili solo dentro la clip -->
+  <!-- righe orizzontali dentro la sagoma -->
   <g clip-path="url(#sanpietro-clip)">
     <g class="line">
       <line x1="0" y1="240" x2="1200" y2="240" />
@@ -46,13 +58,10 @@
   </g>
 
   <!-- macchia -->
-  <circle cx="605" cy="430" r="55" fill="#007C73"/>
+  <circle cx="605" cy="430" r="55" fill="#007C73" />
 
   <!-- onde -->
-  <path class="line"
-        d="M100 700 C280 660, 460 740, 640 700 C820 660, 1000 740, 1180 700" />
-  <path class="line"
-        d="M100 740 C280 700, 460 780, 640 740 C820 700, 1000 780, 1180 740" />
-  <path class="line"
-        d="M100 780 C280 740, 460 820, 640 780 C820 740, 1000 820, 1180 780" />
+  <path class="line" d="M100 700 C280 660, 460 740, 640 700 C820 660, 1000 740, 1180 700" />
+  <path class="line" d="M100 740 C280 700, 460 780, 640 740 C820 700, 1000 780, 1180 740" />
+  <path class="line" d="M100 780 C280 740, 460 820, 640 780 C820 740, 1000 820, 1180 780" />
 </svg>
