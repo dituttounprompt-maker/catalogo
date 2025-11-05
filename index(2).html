@@ -3,45 +3,34 @@
     .line { fill:none; stroke:#007C73; stroke-width:28; stroke-linecap:round; stroke-linejoin:round; }
   </style>
 
-  <!-- MASK: bianco = visibile, nero = bucato -->
-  <mask id="sanpietro-mask">
-    <!-- sfondo nero -->
-    <rect x="0" y="0" width="1200" height="800" fill="black"/>
-
+  <!-- CLIP PATH -->
+  <clipPath id="sanpietro-clip">
     <!-- corpo ovale alto -->
-    <path fill="white" d="
-      M140 400
+    <path d="M140 400
       C240 240, 520 220, 780 300
       C860 260, 940 260, 1020 290
       C1080 310, 1110 340, 1125 370
       C1100 400, 1100 440, 1125 470
       C1110 500, 1080 530, 1020 550
       C940 580, 860 580, 780 540
-      C520 640, 240 560, 140 400
-      Z
-    "/>
+      C520 640, 240 560, 140 400 Z"/>
 
     <!-- coda -->
-    <path fill="white" d="M140 400 L70 350 L60 450 Z"/>
+    <path d="M140 400 L70 350 L60 450 Z"/>
 
     <!-- testa -->
-    <path fill="white" d="M1020 550 L1130 515 L1130 335 L1020 300 Z"/>
+    <path d="M1020 550 L1130 515 L1130 335 L1020 300 Z"/>
 
-    <!-- pinne ventrali -->
-    <path fill="white" d="M520 560 L470 650 L560 630 Z"/>
-    <path fill="white" d="M630 570 L610 660 L690 630 Z"/>
+    <!-- pinne -->
+    <path d="M520 560 L470 650 L560 630 Z"/>
+    <path d="M630 570 L610 660 L690 630 Z"/>
+    <path d="M470 270 L450 190 L500 270 Z"/>
+    <path d="M520 270 L510 180 L560 270 Z"/>
+    <path d="M570 285 L580 195 L630 300 Z"/>
+  </clipPath>
 
-    <!-- pinne dorsali a punte -->
-    <path fill="white" d="M470 270 L450 190 L500 270 Z"/>
-    <path fill="white" d="M520 270 L510 180 L560 270 Z"/>
-    <path fill="white" d="M570 285 L580 195 L630 300 Z"/>
-
-    <!-- buco della macchia -->
-    <circle cx="605" cy="430" r="55" fill="black"/>
-  </mask>
-
-  <!-- RIGHE ORIZZONTALI, mascherate sulla forma -->
-  <g mask="url(#sanpietro-mask)">
+  <!-- righe orizzontali visibili solo dentro la clip -->
+  <g clip-path="url(#sanpietro-clip)">
     <g class="line">
       <line x1="0" y1="240" x2="1200" y2="240" />
       <line x1="0" y1="280" x2="1200" y2="280" />
@@ -56,20 +45,14 @@
     </g>
   </g>
 
-  <!-- macchia piena sopra le righe -->
-  <circle cx="605" cy="430" r="55" fill="#007C73" />
+  <!-- macchia -->
+  <circle cx="605" cy="430" r="55" fill="#007C73"/>
 
-  <!-- tre onde sotto -->
+  <!-- onde -->
   <path class="line"
-        d="M100 700
-           C280 660, 460 740, 640 700
-           C820 660, 1000 740, 1180 700" />
+        d="M100 700 C280 660, 460 740, 640 700 C820 660, 1000 740, 1180 700" />
   <path class="line"
-        d="M100 740
-           C280 700, 460 780, 640 740
-           C820 700, 1000 780, 1180 740" />
+        d="M100 740 C280 700, 460 780, 640 740 C820 700, 1000 780, 1180 740" />
   <path class="line"
-        d="M100 780
-           C280 740, 460 820, 640 780
-           C820 740, 1000 820, 1180 780" />
+        d="M100 780 C280 740, 460 820, 640 780 C820 740, 1000 820, 1180 780" />
 </svg>
